@@ -7,9 +7,26 @@ const router = createRouter({
     { path: "/", component: () => import("../views/HomeView.vue") },
     { path: "/register", component: () => import("../views/RegisterView.vue") },
     { path: "/sign-in", component: () => import("../views/SignIn.vue") },
+
     {
-      path: "/feed",
-      component: () => import("../views/FeedView.vue"),
+      path: "/activity",
+      component: () => import("../views/ActivityView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+
+    {
+      path: "/addActivity",
+      component: () => import("../views/AddActivityView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+
+    {
+      path: "/profile",
+      component: () => import("../views/ProfileView.vue"),
       meta: {
         requiresAuth: true,
       },
