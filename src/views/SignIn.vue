@@ -1,11 +1,8 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <h1>Login</h1>
+  <h1>Sign in</h1>
   <p><input type="text" placeholder="Email" v-model="email" /></p>
   <p><input type="password" placeholder="Password" v-model="password" /></p>
-
-  <p v-if="errMsg">{{ errMsg }}</p>
-
   <p><button @click="register">Submit</button></p>
   <p><button @click="signInWithGoogle">Sign In With Google</button></p>
 </template>
@@ -22,6 +19,7 @@ import { useRouter } from "vue-router"; //import router
 
 const email = ref("");
 const password = ref("");
+const errMsg = ref();
 const router = useRouter();
 
 const register = () => {
@@ -29,12 +27,11 @@ const register = () => {
   const auth = getAuth();
   const errMsg = errMsg.value;
   signInWithEmailAndPassword(auth, email.value, password.value)
-    // eslint-disable-next-line
     .then((data) => {
       console.log("Successfully sign in!");
       console.log(auth.currentUser);
 
-      router.push("/feed");
+      router.push("/activity");
     })
     .catch((error) => {
       console.log(error.code);
