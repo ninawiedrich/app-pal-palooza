@@ -1,10 +1,27 @@
-<!-- eslint-disable no-unused-vars -->
 <template>
   <h1>Sign in</h1>
-  <p><input type="text" placeholder="Email" v-model="email" /></p>
-  <p><input type="password" placeholder="Password" v-model="password" /></p>
-  <p><button @click="register">Submit</button></p>
-  <p><button @click="signInWithGoogle">Sign In With Google</button></p>
+  <form action="">
+    <p>
+      <input
+        type="text"
+        placeholder="Email"
+        v-model="email"
+        autocomplete="off"
+      />
+    </p>
+    <p>
+      <input
+        type="password"
+        placeholder="Password"
+        v-model="password"
+        autocomplete="off"
+      />
+    </p>
+    <p><button @click.prevent="register">Submit</button></p>
+    <p>
+      <button @click.prevent="signInWithGoogle">Sign In With Google</button>
+    </p>
+  </form>
 </template>
 
 <script setup>
@@ -19,13 +36,13 @@ import { useRouter } from "vue-router"; //import router
 
 const email = ref("");
 const password = ref("");
-const errMsg = ref();
+
 const router = useRouter();
 
 const register = () => {
   //need .value because ref()
   const auth = getAuth();
-  const errMsg = errMsg.value;
+
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Successfully sign in!");
@@ -35,20 +52,7 @@ const register = () => {
     })
     .catch((error) => {
       console.log(error.code);
-      switch (error.code) {
-        case "auth/invalid-email":
-          errMsg.value = "Invalid email!";
-          break;
-        case "auth/user-not-found":
-          errMsg.value = "No account with that emailwas found!";
-          break;
-        case "auth/wrong-password":
-          errMsg.value = "Incorrect password!";
-          break;
-        default:
-          errMsg.value = "Email or password was incorrect!";
-          break;
-      }
+      alert("Login failed. Please try again");
     });
 };
 function signInWithGoogle() {
@@ -57,23 +61,10 @@ function signInWithGoogle() {
   const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+      router.push("/activity");
     })
     .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
+      router.push("/sign-in");
     });
 }
 </script>

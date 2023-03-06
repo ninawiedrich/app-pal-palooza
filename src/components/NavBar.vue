@@ -31,7 +31,11 @@
           <li class="nav-item">
             <RouterLink to="/profile" class="nav-link">My profile</RouterLink>
           </li>
-          <button class="btn btn-outline-success" type="submit">
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            v-if="!isLoggedIn"
+          >
             <RouterLink to="/sign-in" class="nav-link">Log in</RouterLink>
           </button>
           <button
@@ -40,7 +44,7 @@
             @click="handleSignOut"
             v-if="isLoggedIn"
           >
-            Sign out
+            <p>Sign out</p>
           </button>
         </ul>
       </div>
@@ -49,35 +53,43 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
+import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
+import router from "@/router";
 
 export default {
   name: "NavBar",
   components: {
     RouterLink,
   },
-data () {
-    const isLoggedIn  = ref(false);
+  data() {
+    const isLoggedIn = ref(false);
     let auth;
-}
-methods: {
-
-onMounted(() => {
-  auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      isLoggedIn.value = true;
-    } else {
-      isLoggedIn.value = false;
-    }
-  });
-});
-const handleSignOut = () => {
-  signOut(auth).then(() => {
-    router.push("/");
-  });
-};
-}
-
+    return {
+      isLoggedIn,
+      auth,
+    };
+  },
+  mounted() {
+    this.signInUser();
+  },
+  methods: {
+    signInUser() {
+      this.auth = getAuth();
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.isLoggedIn = true;
+        } else {
+          this.isLoggedIn = false;
+        }
+      });
+    },
+    handleSignOut() {
+      signOut(this.auth).then(() => {
+        router.push("/sign-in");
+      });
+    },
+  },
 };
 </script>
