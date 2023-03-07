@@ -18,12 +18,20 @@
       />
     </p>
     <p><button @click.prevent="register">Submit</button></p>
+    <p>
+      <button @click.prevent="signInWithGoogle">Sign In With Google</button>
+    </p>
   </form>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { useRouter } from "vue-router"; //import router
 
 const email = ref("");
@@ -45,4 +53,16 @@ const register = () => {
       alert(error.message);
     });
 };
+function signInWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+  const auth = getAuth();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      router.push("/activity");
+    })
+    .catch((error) => {
+      router.push("/sign-in");
+    });
+}
 </script>

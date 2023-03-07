@@ -21,6 +21,10 @@
     <p>
       <button @click.prevent="signInWithGoogle">Sign In With Google</button>
     </p>
+    <p>
+      You don’t have an account? Register
+      <RouterLink to="/register">here.</RouterLink>
+    </p>
   </form>
 </template>
 
@@ -52,7 +56,7 @@ const register = () => {
     })
     .catch((error) => {
       console.log(error.code);
-      alert("Login failed. Please try again");
+      alert("Login failed. Please try again.");
     });
 };
 function signInWithGoogle() {
