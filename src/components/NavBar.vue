@@ -1,7 +1,7 @@
 <template>
   <nav
     class="navbar navbar-expand-lg bg-body-tertiary"
-    style="background-color: #ff9900"
+    style="background-color: #fff0a5"
   >
     <div class="container-fluid">
       <a class="navbar-brand" href="#"
