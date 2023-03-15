@@ -32,6 +32,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
 
 const email = ref("");
@@ -43,6 +45,16 @@ const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Successfully registered!");
+      const user = getAuth().currentUser;
+      setDoc(doc(db, "users", user.uid), {
+        id: user.uid,
+        name: "",
+        /* age as number???? */
+        userAge: "",
+        userJob: "",
+        username: "",
+        userFreeTime: "",
+      });
 
       console.log(auth.currentUser);
 
@@ -59,6 +71,16 @@ function signInWithGoogle() {
   const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
+      const user = getAuth().currentUser;
+      setDoc(doc(db, "users", user.uid), {
+        id: user.uid,
+        name: "",
+        /* age as number???? */
+        userAge: "",
+        userJob: "",
+        username: "",
+        userFreeTime: "",
+      });
       router.push("/activity");
     })
     .catch((error) => {
