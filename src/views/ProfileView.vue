@@ -214,7 +214,7 @@ import { getAuth } from "firebase/auth";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { uploadBytes } from "firebase/storage";
+/* import { uploadBytes, ref as fbref } from "firebase/storage"; */
 
 export default {
   data() {
@@ -237,16 +237,15 @@ export default {
     };
   },
   methods: {
-    uploadFile() {
-      const storageRef = ref(storage, "images");
+    /* uploadFile() {
+      const storageRef = fbref(storage, "images");
 
-      /* 'file' comes from the Blob or File API
+      
 uploadBytes(storageRef, file).then((snapshot) => {
   console.log('Uploaded a blob or file!');
   this.profileImageUrl = await getDownloadURL(snapshot.ref);
             this.submitData();
-});*/
-    },
+}); */
 
     async submitData() {
       this.user = getAuth().currentUser;
