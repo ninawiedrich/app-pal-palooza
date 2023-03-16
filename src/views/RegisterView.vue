@@ -32,7 +32,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, setAddDoc } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
 
@@ -54,6 +54,13 @@ const register = () => {
         userJob: "",
         username: "",
         userFreeTime: "",
+      });
+
+      setAddDoc(doc(db, "addActivity", user.uid), {
+        id: user.uid,
+        name: "",
+        /* age as number???? */
+        addAge: "",
       });
 
       console.log(auth.currentUser);
@@ -80,6 +87,13 @@ function signInWithGoogle() {
         userJob: "",
         username: "",
         userFreeTime: "",
+        addAge: "",
+      });
+      setAddDoc(doc(db, "addActivity", user.uid), {
+        id: user.uid,
+        name: "",
+        /* age as number???? */
+        addAge: "",
       });
       router.push("/activity");
     })
