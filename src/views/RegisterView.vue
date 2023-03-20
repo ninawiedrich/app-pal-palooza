@@ -32,7 +32,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, setDoc, setAddDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
 
@@ -43,33 +43,17 @@ const router = useRouter();
 const register = () => {
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully registered!");
+    .then(() => {
       const user = getAuth().currentUser;
       setDoc(doc(db, "users", user.uid), {
         id: user.uid,
-        name: "",
-        /* age as number???? */
-        userAge: "",
-        userJob: "",
-        username: "",
-        userFreeTime: "",
+        email: user.email,
       });
-
-      setAddDoc(doc(db, "addActivity", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        addAge: "",
-      });
-
-      console.log(auth.currentUser);
 
       router.push("/activity");
     })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
+    .catch(() => {
+      router.push("/sign-in");
     });
 };
 function signInWithGoogle() {
@@ -77,27 +61,15 @@ function signInWithGoogle() {
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(() => {
       const user = getAuth().currentUser;
       setDoc(doc(db, "users", user.uid), {
         id: user.uid,
-        name: "",
-        /* age as number???? */
-        userAge: "",
-        userJob: "",
-        username: "",
-        userFreeTime: "",
-        addAge: "",
-      });
-      setAddDoc(doc(db, "addActivity", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        addAge: "",
+        email: user.email,
       });
       router.push("/activity");
     })
-    .catch((error) => {
+    .catch(() => {
       router.push("/sign-in");
     });
 }

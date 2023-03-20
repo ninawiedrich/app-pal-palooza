@@ -44,18 +44,13 @@ const password = ref("");
 const router = useRouter();
 
 const register = () => {
-  //need .value because ref()
   const auth = getAuth();
 
   signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully sign in!");
-      console.log(auth.currentUser);
-
+    .then(() => {
       router.push("/activity");
     })
-    .catch((error) => {
-      console.log(error.code);
+    .catch(() => {
       alert("Login failed. Please try again.");
     });
 };
@@ -64,10 +59,10 @@ function signInWithGoogle() {
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(() => {
       router.push("/activity");
     })
-    .catch((error) => {
+    .catch(() => {
       router.push("/sign-in");
     });
 }
