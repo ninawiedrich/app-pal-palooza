@@ -4,16 +4,16 @@
       <h4>This is Add Activity</h4>
     </div>
     <div>
-      <div v-for="user in userdata" :key="user.id">
-        {{ user.username }}<br />
+      <div v-for="activity in userActivities" :key="activity.id">
+        <!-- {{ user.username }}<br />
         {{ user.addGender }} <br />
-        {{ user.addAge }} <br />
-        {{ user.addLocation }} <br />
-        {{ user.addDate }} <br />
+        {{ user.addAge }} <br /> -->
+        {{ activity.location }} <br />
+        {{ activity.date }} <br />
         <!-- check how -->
-        {{ user.addTime }} <br />
+        {{ activity.time }} <br />
         <!-- check how -->
-        {{ user.addActivity }} <br />
+        {{ activity.activity }} <br />
       </div>
     </div>
     <br />
@@ -60,7 +60,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Location"
-                v-model="addLocation"
+                v-model="location"
               />
             </div>
           </div>
@@ -71,7 +71,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Date"
-                v-model="addDate"
+                v-model="date"
               />
             </div>
           </div>
@@ -82,7 +82,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Time"
-                v-model="addTime"
+                v-model="time"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Activity"
-                v-model="addActivity"
+                v-model="activity"
               />
             </div>
           </div>
@@ -137,12 +137,12 @@ import { useRouter } from "vue-router";
 export default {
   data() {
     return {
-      userdata: [],
+      userActivities: [],
       user: "",
-      addLocation: ref(""),
-      addDate: ref(""),
-      addTime: ref(""),
-      addActivity: ref(""),
+      location: ref(""),
+      date: ref(""),
+      time: ref(""),
+      activity: ref(""),
     };
   },
   methods: {
@@ -158,40 +158,36 @@ export default {
       console.log(this.user);
 
       /* Function Uploadfile Storage*/
-      const docRef = await addDoc(collection(db, "addActivity"), {
-        addUsername: this.user.username,
-        addGender: this.user.userGender,
-        addAge: this.user.userAge,
-        addLocation: this.addLocation,
-        addDate: this.addDate,
-        addTime: this.addTime,
-        addActivity: this.addActivity,
+      const docRef = await addDoc(collection(db, "activities"), {
+        location: this.location,
+        date: this.date,
+        time: this.time,
+        activity: this.activity,
+        userId: this.user.id,
       });
       console.log("activity created: ", docRef.id);
-      /* const router = useRouter();
-      router.push("/addActivity"); */
+      /*const router = useRouter();
+      router.push("/Activity");*/
       this.getAddData();
     },
 
     async getAddData() {
-      const q2 = query(collection(db, "addActivity"));
+      const q2 = query(collection(db, "activities"));
       const userdetails = [];
       const querySnapshot = await getDocs(q2);
+
       querySnapshot.forEach((doc) => {
         const userdetail = {
           id: doc.id,
-          addActivity: doc.data().addActivity,
-          addAge: doc.data().addAge,
-          addDate: doc.data().addDate,
-          addGender: doc.data().addGender,
-          addLocation: doc.data().addLocation,
-          addTime: doc.data().addTime,
-          addUsername: doc.data().username,
+          activity: doc.data().activity,
+          date: doc.data().date,
+          location: doc.data().location,
+          time: doc.data().time,
         };
         userdetails.push(userdetail);
       });
-      this.userdata = userdetails;
-      console.log(this.userdata);
+      this.userActivities = userdetails;
+      console.log(this.userActivities);
     },
   },
 
