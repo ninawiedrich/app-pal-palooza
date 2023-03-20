@@ -172,7 +172,11 @@ export default {
     },
 
     async getAddData() {
-      const q2 = query(collection(db, "activities"));
+      const userId = getAuth().currentUser.uid;
+      const q2 = query(
+        collection(db, "activities"),
+        where("userId", "==", userId)
+      );
       const userdetails = [];
       const querySnapshot = await getDocs(q2);
 
