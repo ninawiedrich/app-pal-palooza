@@ -4,16 +4,13 @@
       <h1>This is Activity</h1>
     </div>
     <div v-for="activity in userActivities" :key="activity.id">
-      <!-- {{ user.username }}<br />
-        {{ user.addGender }} <br />
-        {{ user.addAge }} <br /> -->
+      {{ activity.user.username }}<br />
+      {{ activity.user.userAge }} <br />
+      {{ activity.user.userGender }} <br />
       {{ activity.location }} <br />
       {{ activity.date }} <br />
-      <!-- check how -->
       {{ activity.time }} <br />
-      <!-- check how -->
-      {{ activity.activity }} <br />
-      {{ activity.user.userGender }}
+      {{ activity.activity }}
     </div>
   </div>
 </template>
@@ -21,15 +18,7 @@
 <script>
 import { ref } from "vue";
 import { db } from "@/stores/firebase";
-import {
-  collection,
-  addDoc,
-  getDoc,
-  getDocs,
-  doc,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDoc, getDocs, doc, query } from "firebase/firestore";
 
 export default {
   data() {
