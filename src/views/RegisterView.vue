@@ -24,7 +24,7 @@
   </form>
 </template>
 
-<script setup>
+<script>
 import { ref } from "vue";
 import {
   getAuth,
@@ -36,41 +36,49 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
 
-const email = ref("");
-const password = ref("");
-const router = useRouter();
+export default {
+  data() {
+    const router = useRouter();
+    return {
+      email: ref(""),
+      password: ref(""),
+      router,
+    };
+  },
+  methods: {
+    register() {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then(() => {
+          const user = getAuth().currentUser;
+          setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            email: user.email,
+          });
 
-const register = () => {
-  const auth = getAuth();
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      const user = getAuth().currentUser;
-      setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        email: user.email,
-      });
-
-      router.push("/activity");
-    })
-    .catch(() => {
-      router.push("/sign-in");
-    });
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          this.router.push("/sign-in");
+        });
+    },
+    signInWithGoogle() {
+      const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      const auth = getAuth();
+      signInWithPopup(auth, provider)
+        .then(() => {
+          const user = getAuth().currentUser;
+          setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            email: user.email,
+          });
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          this.router.push("/sign-in");
+        });
+    },
+  },
 };
-function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
-    .then(() => {
-      const user = getAuth().currentUser;
-      setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        email: user.email,
-      });
-      router.push("/activity");
-    })
-    .catch(() => {
-      router.push("/sign-in");
-    });
-}
 </script>
