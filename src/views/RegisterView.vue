@@ -24,7 +24,7 @@
   </form>
 </template>
 
-<script setup>
+<script>
 import { ref } from "vue";
 import {
   getAuth,
@@ -32,73 +32,53 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, setDoc, setAddDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
 
-const email = ref("");
-const password = ref("");
-const router = useRouter();
+export default {
+  data() {
+    const router = useRouter();
+    return {
+      email: ref(""),
+      password: ref(""),
+      router,
+    };
+  },
+  methods: {
+    register() {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then(() => {
+          const user = getAuth().currentUser;
+          setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            email: user.email,
+          });
 
-const register = () => {
-  const auth = getAuth();
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully registered!");
-      const user = getAuth().currentUser;
-      setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        userAge: "",
-        userJob: "",
-        username: "",
-        userFreeTime: "",
-      });
-
-      setAddDoc(doc(db, "addActivity", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        addAge: "",
-      });
-
-      console.log(auth.currentUser);
-
-      router.push("/activity");
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
-    });
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          this.router.push("/sign-in");
+        });
+    },
+    signInWithGoogle() {
+      const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      const auth = getAuth();
+      signInWithPopup(auth, provider)
+        .then(() => {
+          const user = getAuth().currentUser;
+          setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            email: user.email,
+          });
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          this.router.push("/sign-in");
+        });
+    },
+  },
 };
-function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = getAuth().currentUser;
-      setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        userAge: "",
-        userJob: "",
-        username: "",
-        userFreeTime: "",
-        addAge: "",
-      });
-      setAddDoc(doc(db, "addActivity", user.uid), {
-        id: user.uid,
-        name: "",
-        /* age as number???? */
-        addAge: "",
-      });
-      router.push("/activity");
-    })
-    .catch((error) => {
-      router.push("/sign-in");
-    });
-}
 </script>

@@ -67,141 +67,136 @@
           ></button>
         </div>
         <div class="modal-body"></div>
-        <div>
-          <input type="file" @change="uploadFile" />
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <div class="mb-4">
-            <label class="form-label">Username</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Username"
-              v-model="username"
-            />
+        <div v-for="user in userdata" :key="user.id">
+          <div>
+            <input type="file" @change="uploadFile" />
           </div>
-        </div>
-        <div class="col-sm-6 col-md-6">
-          <div class="mb-4">
-            <label class="form-label">First Name</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="First name"
-              v-model="firstName"
-            />
+          <div class="col-sm-6 col-md-3">
+            <div class="mb-4">
+              <label class="form-label">Username</label>
+              <input
+                class="form-control"
+                type="text"
+                placeholder="choos your name"
+                v-model="username"
+              />
+            </div>
           </div>
-        </div>
-        <div class="col-sm-6 col-md-6">
-          <div class="mb-4">
-            <label class="form-label">Last Name</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Last Name"
-              v-model="lastName"
-            />
+          <div class="col-sm-6 col-md-6">
+            <div class="mb-4">
+              <label class="form-label">First Name</label>
+              <input
+                class="form-control"
+                type="text"
+                placeholder="First name"
+                v-model="firstName"
+              />
+            </div>
           </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <div class="mb-4">
-            <label class="form-label">Age</label>
-            <input
-              class="form-control"
-              type="number"
-              placeholder="age"
-              v-model="userAge"
-            />
+          <div class="col-sm-6 col-md-6">
+            <div class="mb-4">
+              <label class="form-label">Last Name</label>
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Last Name"
+                v-model="lastName"
+              />
+            </div>
           </div>
-        </div>
-        <div class="col-md-5">
-          <div class="mb-4">
-            <select class="form-control custom-select" v-model="userGender">
-              <option disabled value="">Please select onr option</option>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-              <option value="diverse">Diverse</option>
-            </select>
+          <div class="col-sm-6 col-md-3">
+            <div class="mb-4">
+              <label class="form-label">Age</label>
+              <input
+                class="form-control"
+                type="number"
+                placeholder="age"
+                v-model="userAge"
+              />
+            </div>
           </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="mb-4">
-            <label class="form-label">Job</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="job"
-              v-model="userJob"
-            />
+          <div class="col-md-5">
+            <div class="mb-4">
+              <select class="form-control custom-select" v-model="userGender">
+                <option disabled value="">Please select onr option</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="diverse">Diverse</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="col-md-12">
-          <div class="mb-0">
-            <label class="form-label">In my free time...</label>
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="In my free time"
-              v-model="userFreeTime"
+          <div class="col-sm-6 col-md-4">
+            <div class="mb-4">
+              <label class="form-label">Job</label>
+              <input
+                class="form-control"
+                type="text"
+                placeholder="job"
+                v-model="userJob"
+              />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-0">
+              <label class="form-label">In my free time...</label>
+              <textarea
+                class="form-control"
+                rows="5"
+                placeholder="In my free time"
+                v-model="userFreeTime"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-0">
+              <label class="form-label">I like...</label>
+              <textarea
+                class="form-control"
+                rows="5"
+                placeholder="Here can be your description"
+                v-model="userLike"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-0">
+              <label class="form-label">I don't like...</label>
+              <textarea
+                class="form-control"
+                rows="5"
+                placeholder="I don't like"
+                v-model="userDontLike"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-0">
+              <label class="form-label">Few words about me... </label>
+              <textarea
+                class="form-control"
+                rows="5"
+                placeholder="description"
+                v-model="userAboutMe"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
             >
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary btn_close"
+              @click="submitData"
+              data-bs-dismiss="modal"
             >
+              Update
+            </button>
           </div>
-        </div>
-        <div class="col-md-12">
-          <div class="mb-0">
-            <label class="form-label">I like...</label>
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="Here can be your description"
-              v-model="userLike"
-            >
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea
-            >
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="mb-0">
-            <label class="form-label">I don't like...</label>
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="I don't like"
-              v-model="userDontLike"
-            >
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea
-            >
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="mb-0">
-            <label class="form-label">Few words about me... </label>
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="description"
-              v-model="userAboutMe"
-            >
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea
-            >
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary btn_close"
-            @click="submitData"
-          >
-            Update
-          </button>
         </div>
       </div>
     </div>
@@ -218,6 +213,7 @@ import { useRouter } from "vue-router";
 
 export default {
   data() {
+    const router = useRouter();
     return {
       userdata: [],
       user: "",
@@ -234,6 +230,8 @@ export default {
       userLike: ref(""),
       userDontLike: ref(""),
       userAboutMe: ref(""),
+
+      router,
     };
   },
   methods: {
@@ -249,9 +247,6 @@ uploadBytes(storageRef, file).then((snapshot) => {
 
     async submitData() {
       this.user = getAuth().currentUser;
-      console.log(this.user.uid);
-
-      /* Function Uploadfile Storage */
       const docRef = doc(db, "users", this.user.uid);
       await updateDoc(docRef, {
         username: this.username,
@@ -268,9 +263,8 @@ uploadBytes(storageRef, file).then((snapshot) => {
       });
 
       console.log("Name change");
-      const router = useRouter();
-      router.push("/profile");
-      this.getData();
+
+      this.router.go();
     },
 
     async getData() {

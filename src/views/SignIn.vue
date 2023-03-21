@@ -28,7 +28,7 @@
   </form>
 </template>
 
-<script setup>
+<script>
 import { ref } from "vue";
 import {
   getAuth,
@@ -38,37 +38,39 @@ import {
 } from "firebase/auth";
 import { useRouter } from "vue-router"; //import router
 
-const email = ref("");
-const password = ref("");
+export default {
+  data() {
+    const router = useRouter();
+    return {
+      email: ref(""),
+      password: ref(""),
+      router,
+    };
+  },
+  methods: {
+    register() {
+      const auth = getAuth();
 
-const router = useRouter();
-
-const register = () => {
-  //need .value because ref()
-  const auth = getAuth();
-
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully sign in!");
-      console.log(auth.currentUser);
-
-      router.push("/activity");
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert("Login failed. Please try again.");
-    });
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then(() => {
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          alert("Login failed. Please try again.");
+        });
+    },
+    signInWithGoogle() {
+      const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      const auth = getAuth();
+      signInWithPopup(auth, provider)
+        .then(() => {
+          this.router.push("/activity");
+        })
+        .catch(() => {
+          this.router.push("/sign-in");
+        });
+    },
+  },
 };
-function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      router.push("/activity");
-    })
-    .catch((error) => {
-      router.push("/sign-in");
-    });
-}
 </script>
