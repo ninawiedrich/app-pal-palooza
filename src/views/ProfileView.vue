@@ -14,7 +14,7 @@
         </div>
         <!-- Not needed?! -->
         <div v-for="user in this.userdata" :key="user.id">
-          <p>Name: {{ user.username }}</p>
+          <p>Username: {{ user.username }}</p>
           <br />
           {{ user.firstName }} <br />
           {{ user.lastName }} <br />
@@ -44,166 +44,141 @@
   </form>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Edit Profile
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+  <ModalComponent :title="'My Profile'">
+    <div v-for="user in userdata" :key="user.id">
+      <div>
+        <input type="file" @change="uploadFile" />
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="mb-4">
+          <label class="form-label">Username</label>
+          <input
+            class="form-control"
+            type="text"
+            placeholder="choos your name"
+            v-model="username"
+          />
         </div>
-        <div class="modal-body"></div>
-        <div v-for="user in userdata" :key="user.id">
-          <div>
-            <input type="file" @change="uploadFile" />
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Username</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="choos your name"
-                v-model="username"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-6">
-            <div class="mb-4">
-              <label class="form-label">First Name</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="First name"
-                v-model="firstName"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-6">
-            <div class="mb-4">
-              <label class="form-label">Last Name</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Last Name"
-                v-model="lastName"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Age</label>
-              <input
-                class="form-control"
-                type="number"
-                placeholder="age"
-                v-model="userAge"
-              />
-            </div>
-          </div>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <div class="mb-4">
+          <label class="form-label">First Name</label>
+          <input
+            class="form-control"
+            type="text"
+            placeholder="First name"
+            v-model="firstName"
+          />
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <div class="mb-4">
+          <label class="form-label">Last Name</label>
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Last Name"
+            v-model="lastName"
+          />
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="mb-4">
+          <label class="form-label">Age</label>
+          <input
+            class="form-control"
+            type="number"
+            placeholder="age"
+            v-model="userAge"
+          />
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="mb-4">
           <div class="col-md-5">
             <div class="mb-4">
+              <label class="form-label">Gender</label>
               <select class="form-control custom-select" v-model="userGender">
-                <option disabled value="">Please select onr option</option>
+                <option value="">Please select your option</option>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
                 <option value="diverse">Diverse</option>
               </select>
             </div>
           </div>
-          <div class="col-sm-6 col-md-4">
-            <div class="mb-4">
-              <label class="form-label">Job</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="job"
-                v-model="userJob"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-0">
-              <label class="form-label">In my free time...</label>
-              <textarea
-                class="form-control"
-                rows="5"
-                placeholder="In my free time"
-                v-model="userFreeTime"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-0">
-              <label class="form-label">I like...</label>
-              <textarea
-                class="form-control"
-                rows="5"
-                placeholder="Here can be your description"
-                v-model="userLike"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-0">
-              <label class="form-label">I don't like...</label>
-              <textarea
-                class="form-control"
-                rows="5"
-                placeholder="I don't like"
-                v-model="userDontLike"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-0">
-              <label class="form-label">Few words about me... </label>
-              <textarea
-                class="form-control"
-                rows="5"
-                placeholder="description"
-                v-model="userAboutMe"
-              ></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn_close"
-              @click="submitData"
-              data-bs-dismiss="modal"
-            >
-              Update
-            </button>
-          </div>
         </div>
       </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="mb-4">
+          <label class="form-label">Job</label>
+          <input
+            class="form-control"
+            type="text"
+            placeholder="job"
+            v-model="userJob"
+          />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="mb-0">
+          <label class="form-label">In my free time...</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="In my free time"
+            v-model="userFreeTime"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="mb-0">
+          <label class="form-label">I like...</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="Here can be your description"
+            v-model="userLike"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="mb-0">
+          <label class="form-label">I don't like...</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="I don't like"
+            v-model="userDontLike"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="mb-0">
+          <label class="form-label">Few words about me... </label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="description"
+            v-model="userAboutMe"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary btn_close"
+          @click="submitData"
+          data-bs-dismiss="modal"
+        >
+          Update
+        </button>
+      </div>
     </div>
-  </div>
+  </ModalComponent>
 </template>
 
 <script>
+import ModalComponent from "@/components/ModalComponent.vue";
 import { db, storage, storageRef } from "@/stores/firebase.js";
 import { getAuth } from "firebase/auth";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
@@ -212,14 +187,13 @@ import { useRouter } from "vue-router";
 /* import { uploadBytes, ref as fbref } from "firebase/storage"; */
 
 export default {
+  components: { ModalComponent },
   data() {
     const router = useRouter();
     return {
       userdata: [],
       user: "",
-
       profileImageUrl: "",
-
       username: ref(""),
       firstName: ref(""),
       lastName: ref(""),
@@ -230,21 +204,19 @@ export default {
       userLike: ref(""),
       userDontLike: ref(""),
       userAboutMe: ref(""),
-
       router,
     };
   },
   methods: {
     /* uploadFile() {
-      const storageRef = fbref(storage, "images");
-
-      
-uploadBytes(storageRef, file).then((snapshot) => {
-  console.log('Uploaded a blob or file!');
-  this.profileImageUrl = await getDownloadURL(snapshot.ref);
-            this.submitData();
-}); */
-
+          const storageRef = fbref(storage, "images");
+    
+          
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      this.profileImageUrl = await getDownloadURL(snapshot.ref);
+                this.submitData();
+    }); */
     async submitData() {
       this.user = getAuth().currentUser;
       const docRef = doc(db, "users", this.user.uid);
@@ -261,12 +233,9 @@ uploadBytes(storageRef, file).then((snapshot) => {
         userAboutMe: this.userAboutMe,
         profileImageUrl: this.profileImageUrl,
       });
-
       console.log("Name change");
-
       this.router.go();
     },
-
     async getData() {
       this.user = getAuth().currentUser;
       console.log(this.user.uid);
@@ -280,7 +249,6 @@ uploadBytes(storageRef, file).then((snapshot) => {
       }
     },
   },
-
   mounted() {
     this.getData();
   },
