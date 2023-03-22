@@ -94,7 +94,7 @@
       <button
         type="button"
         class="btn btn-primary btn_close"
-        @click="submitAddData"
+        @click="filterAddData"
         data-bs-dismiss="modal"
       >
         Search
@@ -107,7 +107,14 @@
 import ModalComponent from "@/components/ModalComponent.vue";
 import { ref } from "vue";
 import { db } from "@/stores/firebase";
-import { collection, getDoc, getDocs, doc, query } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
 
 export default {
   components: { ModalComponent },
@@ -119,6 +126,8 @@ export default {
       date: ref(""),
       time: ref(""),
       activity: ref(""),
+      userAge: ref(null),
+      userGender: ref(""),
     };
   },
   methods: {
@@ -137,7 +146,6 @@ export default {
     },
 
     async getAddData() {
-      console.log("es klappt");
       const q2 = query(collection(db, "activities"));
       const activities = [];
       const querySnapshot = await getDocs(q2);
@@ -157,13 +165,66 @@ export default {
       }
 
       this.userActivities = activities;
-      console.log(this.userActivities);
+    },
+
+    async filterAddData() {
+      console.log("the filter is working");
+
+      const ageQuery = this.userAge
+        ? where("userAge", "==", this.userAge)
+        : null;
+      const genderQuery = this.userGender
+        ? where("userGender", "==", this.userGender)
+        : null;
+      const locationQuery = this.location
+        ? where("location", "==", this.location)
+        : null;
+      const dateQuery = this.date ? where("date", "==", this.date) : null;
+      const timeQuery = this.time ? where("time", "==", this.time) : null;
+      const activityQuery = this.activity
+        ? where("activity", "==", this.activity)
+        : null;
+
+      const queries = [
+        ageQuery,
+        genderQuery,
+        locationQuery,
+        dateQuery,
+        timeQuery,
+        activityQuery,
+      ].filter((q) => q);
+
+      let q2 = query(collection(db, "activities"));
+      if (queries.length) {
+        queries.forEach((q) => {
+          q2 = query(q2, q);
+        });
+      }
+
+      const activities = [];
+      const querySnapshot = await getDocs(q2);
+
+      for (let doc of querySnapshot.docs) {
+        const activityData = doc.data();
+        const activityDetail = {
+          id: doc.id,
+          activity: activityData.activity,
+          date: activityData.date,
+          location: activityData.location,
+          time: activityData.time,
+        };
+
+        activityDetail.user = await this.getUserData(activityData.userId);
+        activities.push(activityDetail);
+      }
+
+      this.userActivities = activities;
     },
   },
 
   async created() {
     await this.getAddData();
-    setTimeout(() => console.log("Frietag"), 10000);
+    /*setTimeout(() => console.log("Frietag"), 10000);*/
   },
 };
 </script>
