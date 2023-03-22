@@ -31,92 +31,62 @@
   </form>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add activty</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <div class="modal-body">
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Location</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Location"
-                v-model="location"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Date</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Date"
-                v-model="date"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Time</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Time"
-                v-model="time"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <div class="mb-4">
-              <label class="form-label">Activity</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Activity"
-                v-model="activity"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary btn_close"
-            @click="submitAddData"
-          >
-            submit
-          </button>
-        </div>
+  <ModalComponent :title="'Add Activity'">
+    <div class="col-sm-6 col-md-3">
+      <div class="mb-4">
+        <label class="form-label">Location</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Location"
+          v-model="location"
+        />
       </div>
     </div>
-  </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="mb-4">
+        <label class="form-label">Date</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Date"
+          v-model="date"
+        />
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="mb-4">
+        <label class="form-label">Time</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Time"
+          v-model="time"
+        />
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="mb-4">
+        <label class="form-label">Activity</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Activity"
+          v-model="activity"
+        />
+      </div>
+    </div>
+    <template v-slot:footer>
+      <button
+        type="button"
+        class="btn btn-primary btn_close"
+        @click="submitAddData"
+        data-bs-dismiss="modal"
+      >
+        Submit
+      </button>
+    </template>
+  </ModalComponent>
 </template>
 
 <script>
@@ -133,8 +103,10 @@ import {
 } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
+  components: { ModalComponent },
   data() {
     return {
       userActivities: [],
