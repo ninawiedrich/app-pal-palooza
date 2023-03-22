@@ -1,34 +1,36 @@
 <template>
-  <form>
-    <div>
-      <h4>This is Add Activity</h4>
-    </div>
-    <div>
-      <div v-for="activity in userActivities" :key="activity.id">
-        <!-- {{ user.username }}<br />
-        {{ user.addGender }} <br />
-        {{ user.addAge }} <br /> -->
-        {{ activity.location }} <br />
-        {{ activity.date }} <br />
-        <!-- check how -->
-        {{ activity.time }} <br />
-        <!-- check how -->
-        {{ activity.activity }} <br />
-      </div>
-    </div>
-    <br />
-    <div>
-      <!-- Button trigger modal -->
+  <div class="container">
+    <form>
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary add-activity-btn"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
-        Add activty
+        Add activity
       </button>
-    </div>
-  </form>
+      <div class="activity-list">
+        <div class="activity-wrapper">
+          <div
+            v-for="activity in userActivities"
+            :key="activity.id"
+            class=".activity-item"
+          >
+            <!-- {{ user.username }}<br />
+        {{ user.addGender }} <br />
+        {{ user.addAge }} <br /> -->
+            {{ activity.location }} <br />
+            {{ activity.date }} <br />
+            <!-- check how -->
+            {{ activity.time }} <br />
+            <!-- check how -->
+            {{ activity.activity }} <br />
+          </div>
+        </div>
+      </div>
+      <br />
+    </form>
+  </div>
 
   <!-- Modal -->
   <div
@@ -43,13 +45,11 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add activty</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <div class="modal-header-right">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Add activty
+            </h1>
+          </div>
         </div>
 
         <div class="modal-body">
@@ -201,7 +201,7 @@ export default {
 };
 </script>
 <style>
-.btn_close {
+/*.btn_close {
   cursor: pointer;
-}
+}*/
 </style>
