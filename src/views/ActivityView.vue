@@ -14,7 +14,8 @@
         </button>
       </div>
     </div>
-    <div v-for="activity in userActivities" :key="activity.id">
+    <!-- <activityList :activities="filteredActivities"></activityList> -->
+    <div v-for="activity in filteredActivities" :key="activity.id">
       {{ activity.user.username }}<br />
       {{ activity.user.userAge }} <br />
       {{ activity.user.userGender }} <br />
@@ -62,7 +63,7 @@
         <label class="form-label">Date</label>
         <input
           class="form-control"
-          type="text"
+          type="date"
           placeholder="Date"
           v-model="date"
         />
@@ -73,7 +74,7 @@
         <label class="form-label">Time</label>
         <input
           class="form-control"
-          type="text"
+          type="time"
           placeholder="Time"
           v-model="time"
         />
@@ -94,7 +95,6 @@
       <button
         type="button"
         class="btn btn-primary btn_close"
-        @click="filterAddData"
         data-bs-dismiss="modal"
       >
         Search
@@ -130,6 +130,39 @@ export default {
       userGender: ref(""),
     };
   },
+  computed: {
+    filteredActivities() {
+      let filteredActivities = this.userActivities;
+      if (this.userGender.length > 0) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.userGender === this.userGender
+        );
+      }
+      if (this.location.length > 0) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.location === this.location
+        );
+      }
+      if (this.date.length > 0) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.date === this.date
+        );
+      }
+      if (this.time.length > 0) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.time === this.time
+        );
+      }
+
+      if (this.activity.length > 0) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.activity === this.activity
+        );
+      }
+      return filteredActivities;
+    },
+  },
+
   methods: {
     async getUserData(userId) {
       const docRef = doc(db, "users", userId);
@@ -147,60 +180,6 @@ export default {
 
     async getAddData() {
       const q2 = query(collection(db, "activities"));
-      const activities = [];
-      const querySnapshot = await getDocs(q2);
-
-      for (let doc of querySnapshot.docs) {
-        const activityData = doc.data();
-        const activityDetail = {
-          id: doc.id,
-          activity: activityData.activity,
-          date: activityData.date,
-          location: activityData.location,
-          time: activityData.time,
-        };
-
-        activityDetail.user = await this.getUserData(activityData.userId);
-        activities.push(activityDetail);
-      }
-
-      this.userActivities = activities;
-    },
-
-    async filterAddData() {
-      console.log("the filter is working");
-
-      const ageQuery = this.userAge
-        ? where("userAge", "==", this.userAge)
-        : null;
-      const genderQuery = this.userGender
-        ? where("userGender", "==", this.userGender)
-        : null;
-      const locationQuery = this.location
-        ? where("location", "==", this.location)
-        : null;
-      const dateQuery = this.date ? where("date", "==", this.date) : null;
-      const timeQuery = this.time ? where("time", "==", this.time) : null;
-      const activityQuery = this.activity
-        ? where("activity", "==", this.activity)
-        : null;
-
-      const queries = [
-        ageQuery,
-        genderQuery,
-        locationQuery,
-        dateQuery,
-        timeQuery,
-        activityQuery,
-      ].filter((q) => q);
-
-      let q2 = query(collection(db, "activities"));
-      if (queries.length) {
-        queries.forEach((q) => {
-          q2 = query(q2, q);
-        });
-      }
-
       const activities = [];
       const querySnapshot = await getDocs(q2);
 

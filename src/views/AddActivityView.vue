@@ -1,39 +1,49 @@
 <template>
-  <div class="container">
+  <div class="container activity-page">
     <form>
-      <button
-        type="button"
-        class="btn btn-primary add-activity-btn"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        Add activity
-      </button>
-      <div class="activity-list">
-        <div class="activity-wrapper">
+      <div class="center-rectangle">
+        <div class="activity-list-actions">
+          <button
+            type="button"
+            class="add-activity-btn add-activity-btn-container"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            Add activity
+          </button>
+        </div>
+        <div class="activity-list activity-wrapper">
+          <!-- <activityList :activities="userActivities"></activityList> -->
           <div
             v-for="activity in userActivities"
             :key="activity.id"
-            class=".activity-item"
+            class="activity-item"
           >
-            <!-- {{ user.username }}<br />
-        {{ user.addGender }} <br />
-        {{ user.addAge }} <br /> -->
-            {{ activity.location }} <br />
-            {{ activity.date }} <br />
+            <div class="cyan-rectangle-activity-list">
+              <p>{{ activity.location }}</p>
+            </div>
+
+            <div class="cyan-rectangle-activity-list">
+              <p>{{ activity.date }}</p>
+            </div>
             <!-- check how -->
-            {{ activity.time }} <br />
+            <div class="cyan-rectangle-activity-list">
+              <p>{{ activity.time }}</p>
+            </div>
             <!-- check how -->
-            {{ activity.activity }} <br />
+            <div class="cyan-rectangle-activity-list">
+              <p>{{ activity.activity }}</p>
+            </div>
           </div>
         </div>
       </div>
+
       <br />
     </form>
   </div>
 
   <!-- Modal -->
-  <ModalComponent :title="'Add Activity'">
+  <ModalComponent :title="'Add Activity'" class="modal-style">
     <div class="col-sm-6 col-md-3">
       <div class="mb-4">
         <label class="form-label">Location</label>
@@ -50,7 +60,7 @@
         <label class="form-label">Date</label>
         <input
           class="form-control"
-          type="text"
+          type="date"
           placeholder="Date"
           v-model="date"
         />
@@ -61,7 +71,7 @@
         <label class="form-label">Time</label>
         <input
           class="form-control"
-          type="text"
+          type="time"
           placeholder="Time"
           v-model="time"
         />
@@ -178,4 +188,80 @@ export default {
 /*.btn_close {
   cursor: pointer;
 }*/
+
+body {
+  background-color: #5bc0de;
+}
+
+/* Center rectangle */
+.center-rectangle {
+  background: linear-gradient(#5bc0de, white);
+  padding: 40px;
+  margin-top: 10px;
+  border-radius: 40px;
+}
+
+/* Style for container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Style for add activity button container */
+.activity-list-actions {
+  display: flex;
+  justify-content: end;
+}
+
+.add-activity-btn-container {
+  /*position: absolute;*/
+  top: 30px;
+  right: 40px;
+}
+
+/* Style for add activity button */
+.add-activity-btn {
+  background-color: #a75f4a;
+  color: yellow;
+  border: 2px solid #ff9900;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.add-activity-btn:hover {
+  cursor: pointer;
+  background-color: #ace0ef;
+}
+
+/* Style for activity item*/
+
+.activity-wrapper {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  padding-top: 40px;
+}
+
+.activity-item {
+  border: 2px solid #5bc0de;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: yellow;
+  font-size: 16px;
+  color: #666;
+  box-sizing: border-box;
+  flex-basis: calc(20% - 20px);
+  max-width: 100%;
+  text-align: center;
+}
+
+.cyan-rectangle-activity-list {
+  background-color: white;
+  color: #a75f4a;
+  border-radius: 2px;
+  margin: 2px;
+}
 </style>
