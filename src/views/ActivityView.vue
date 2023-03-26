@@ -135,7 +135,12 @@ export default {
       let filteredActivities = this.userActivities;
       if (this.userGender.length > 0) {
         filteredActivities = filteredActivities.filter(
-          (activity) => activity.userGender === this.userGender
+          (activity) => activity.user.userGender === this.userGender
+        );
+      }
+      if (this.userAge !== null) {
+        filteredActivities = filteredActivities.filter(
+          (activity) => activity.user.userAge === this.userAge
         );
       }
       if (this.location.length > 0) {
