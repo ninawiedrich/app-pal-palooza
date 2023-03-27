@@ -14,16 +14,7 @@
         </button>
       </div>
     </div>
-    <!-- <activityList :activities="filteredActivities"></activityList> -->
-    <div v-for="activity in filteredActivities" :key="activity.id">
-      {{ activity.user.username }}<br />
-      {{ activity.user.userAge }} <br />
-      {{ activity.user.userGender }} <br />
-      {{ activity.location }} <br />
-      {{ activity.date }} <br />
-      {{ activity.time }} <br />
-      {{ activity.activity }}
-    </div>
+    <activityList :activities="filteredActivities"></activityList>
   </div>
   <!-- Modal -->
   <ModalComponent :title="'Search Activity'">

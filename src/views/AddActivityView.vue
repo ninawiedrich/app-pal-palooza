@@ -13,31 +13,9 @@
           </button>
         </div>
         <div class="activity-list activity-wrapper">
-          <!-- <activityList :activities="userActivities"></activityList> -->
-          <div
-            v-for="activity in userActivities"
-            :key="activity.id"
-            class="activity-item"
-          >
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.location }}</p>
-            </div>
-
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.date }}</p>
-            </div>
-            <!-- check how -->
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.time }}</p>
-            </div>
-            <!-- check how -->
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.activity }}</p>
-            </div>
-          </div>
+          <activityList :activities="userActivities"></activityList>
         </div>
       </div>
-
       <br />
     </form>
   </div>
