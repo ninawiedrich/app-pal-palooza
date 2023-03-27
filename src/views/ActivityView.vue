@@ -144,8 +144,8 @@ export default {
         );
       }
       if (this.location.length > 0) {
-        filteredActivities = filteredActivities.filter(
-          (activity) => activity.location === this.location
+        filteredActivities = filteredActivities.filter((activity) =>
+          activity.location.toLowerCase().includes(this.location.toLowerCase())
         );
       }
       if (this.date.length > 0) {
@@ -160,8 +160,8 @@ export default {
       }
 
       if (this.activity.length > 0) {
-        filteredActivities = filteredActivities.filter(
-          (activity) => activity.activity === this.activity
+        filteredActivities = filteredActivities.filter((activity) =>
+          activity.activity.toLowerCase().includes(this.activity.toLowerCase())
         );
       }
       return filteredActivities;
