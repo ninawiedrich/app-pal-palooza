@@ -1,22 +1,19 @@
 <template>
-  <div v-for="activity in filteredActivities" :key="activity.id">
-    {{ activity.user.username }}<br />
-    {{ activity.user.userAge }} <br />
-    {{ activity.user.userGender }} <br />
-    {{ activity.location }} <br />
-    {{ activity.date }} <br />
-    {{ activity.time }} <br />
-    {{ activity.activity }}
-  </div>
-  <div
-    v-for="activity in userActivities"
-    :key="activity.id"
-    class="activity-item"
-  >
+  <div v-for="activity in activities" :key="activity.id" class="activity-item">
     <div class="cyan-rectangle-activity-list">
       <p>{{ activity.location }}</p>
     </div>
-
+    <template v-if="activity.user">
+      <div class="cyan-rectangle-activity-list">
+        <p>{{ activity.user.username }}</p>
+      </div>
+      <div class="cyan-rectangle-activity-list">
+        <p>{{ activity.user.userAge }}</p>
+      </div>
+      <div class="cyan-rectangle-activity-list">
+        <p>{{ activity.user.userGender }}</p>
+      </div>
+    </template>
     <div class="cyan-rectangle-activity-list">
       <p>{{ activity.date }}</p>
     </div>
@@ -33,7 +30,15 @@
 
 <script>
 export default {
-  name: "activityList",
+  name: "ActivityList",
+  props: {
+    activities: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   data() {
     return {};
   },

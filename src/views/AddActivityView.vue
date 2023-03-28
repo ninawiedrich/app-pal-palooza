@@ -13,7 +13,8 @@
           </button>
         </div>
         <div class="activity-list activity-wrapper">
-          <activityList :activities="userActivities"></activityList>
+          <!-- Die classen + Styles mit in die Component rüber nehmen -->
+          <ActivityList :activities="userActivities"></ActivityList>
         </div>
       </div>
       <br />
@@ -80,6 +81,7 @@
 </template>
 
 <script>
+import ActivityList from "@/components/ActivityListComponent.vue";
 import { getAuth } from "firebase/auth";
 import { db } from "@/stores/firebase";
 import {
@@ -96,7 +98,7 @@ import { useRouter } from "vue-router";
 import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
-  components: { ModalComponent },
+  components: { ModalComponent, ActivityList },
   data() {
     return {
       userActivities: [],
@@ -157,8 +159,8 @@ export default {
     },
   },
 
-  mounted() {
-    this.getAddData();
+  async created() {
+    await this.getAddData();
   },
 };
 </script>

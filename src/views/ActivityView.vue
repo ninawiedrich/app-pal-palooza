@@ -14,7 +14,7 @@
         </button>
       </div>
     </div>
-    <activityList :activities="filteredActivities"></activityList>
+    <ActivityList :activities="filteredActivities"></ActivityList>
   </div>
   <!-- Modal -->
   <ModalComponent :title="'Search Activity'">
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+import ActivityList from "@/components/ActivityListComponent.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { ref } from "vue";
 import { db } from "@/stores/firebase";
@@ -108,7 +109,7 @@ import {
 } from "firebase/firestore";
 
 export default {
-  components: { ModalComponent },
+  components: { ModalComponent, ActivityList },
   data() {
     return {
       userActivities: [],
