@@ -204,8 +204,8 @@ body {
   color: yellow;
   border: 2px solid #ff9900;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: 5px 15px;
+  font-size: 16px;
   font-weight: bold;
 }
 
