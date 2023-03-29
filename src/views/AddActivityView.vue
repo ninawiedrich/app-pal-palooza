@@ -12,7 +12,7 @@
             Add activity
           </button>
         </div>
-        <div class="activity-list activity-wrapper">
+        <div>
           <!-- Die classen + Styles mit in die Component rüber nehmen -->
           <ActivityList :activities="userActivities"></ActivityList>
         </div>
@@ -169,10 +169,6 @@ export default {
   cursor: pointer;
 }*/
 
-body {
-  background-color: #5bc0de;
-}
-
 /* Center rectangle */
 .center-rectangle {
   background: linear-gradient(#5bc0de, white);
@@ -214,34 +210,5 @@ body {
 .add-activity-btn:hover {
   cursor: pointer;
   background-color: #ace0ef;
-}
-
-/* Style for activity item*/
-
-.activity-wrapper {
-  display: grid;
-  gap: 40px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  padding-top: 40px;
-}
-
-.activity-item {
-  border: 2px solid #5bc0de;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: yellow;
-  font-size: 16px;
-  color: #666;
-  box-sizing: border-box;
-  flex-basis: calc(20% - 20px);
-  max-width: 100%;
-  text-align: center;
-}
-
-.cyan-rectangle-activity-list {
-  background-color: white;
-  color: #a75f4a;
-  border-radius: 2px;
-  margin: 2px;
 }
 </style>
