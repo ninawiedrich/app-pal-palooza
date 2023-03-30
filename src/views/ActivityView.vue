@@ -1,23 +1,27 @@
 <template>
-  <div>
-    <div>
-      <h1>This is Activity</h1>
-      <div>
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-        >
-          Search activty
-        </button>
+  <div class="container activity-page">
+    <form>
+      <div class="center-rectangle">
+        <div class="activity-list-actions">
+          <button
+            type="button"
+            class="add-activity-btn add-activity-btn-container"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            Search activty
+          </button>
+        </div>
+        <div>
+          <!-- Die classen + Styles mit in die Component rüber nehmen -->
+          <ActivityList :activities="filteredActivities"></ActivityList>
+        </div>
       </div>
-    </div>
-    <ActivityList :activities="filteredActivities"></ActivityList>
+      <br />
+    </form>
   </div>
   <!-- Modal -->
-  <ModalComponent :title="'Search Activity'">
+  <ModalComponent :title="'Search Activity'" class="modal-style">
     <div class="mb-4">
       <label class="form-label">Gender</label>
       <select class="form-control custom-select" v-model="userGender">

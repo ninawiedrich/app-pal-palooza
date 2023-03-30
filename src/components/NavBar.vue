@@ -18,15 +18,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <RouterLink to="/activity" class="nav-link">Activity</RouterLink>
+          <RouterLink
+            exact
+            to="/activity"
+            class="nav-link"
+            active-class="active-link"
+            >Activity</RouterLink
+          >
         </li>
         <li class="nav-item">
-          <RouterLink to="/addActivity" class="nav-link"
+          <RouterLink
+            exact
+            to="/addActivity"
+            class="nav-link"
+            active-class="active-link"
             >Add Activity</RouterLink
           >
         </li>
         <li class="nav-item">
-          <RouterLink to="/profile" class="nav-link">My profile</RouterLink>
+          <RouterLink
+            exact
+            to="/profile"
+            class="nav-link"
+            active-class="active-link"
+            >My profile</RouterLink
+          >
         </li>
 
         <li class="nav-item" v-if="!isLoggedIn">
@@ -85,6 +101,9 @@
   color: brown;
 }
 
+.nav-item .active-link {
+  color: brown;
+}
 .nav-link {
   color: yellow;
   text-decoration: none;

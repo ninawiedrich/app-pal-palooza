@@ -52,8 +52,48 @@ export default {
 </script>
 
 <style>
+/* Center rectangle */
+.center-rectangle {
+  background: linear-gradient(#5bc0de, white);
+  padding: 40px;
+  margin-top: 10px;
+  border-radius: 40px;
+}
+/* Style for container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px;
+}
 body {
   background-color: #5bc0de;
+}
+/* Style for add activity button container */
+.activity-list-actions {
+  display: flex;
+  justify-content: end;
+}
+
+.add-activity-btn-container {
+  /*position: absolute;*/
+  top: 30px;
+  right: 40px;
+}
+
+/* Style for add activity button */
+.add-activity-btn {
+  background-color: #a75f4a;
+  color: yellow;
+  border: 2px solid #ff9900;
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.add-activity-btn:hover {
+  cursor: pointer;
+  background-color: #ace0ef;
 }
 /* Style for activity item*/
 
