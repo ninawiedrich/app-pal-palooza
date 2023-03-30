@@ -12,32 +12,11 @@
             Add activity
           </button>
         </div>
-        <div class="activity-list activity-wrapper">
-          <!-- <activityList :activities="userActivities"></activityList> -->
-          <div
-            v-for="activity in userActivities"
-            :key="activity.id"
-            class="activity-item"
-          >
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.location }}</p>
-            </div>
-
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.date }}</p>
-            </div>
-            <!-- check how -->
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.time }}</p>
-            </div>
-            <!-- check how -->
-            <div class="cyan-rectangle-activity-list">
-              <p>{{ activity.activity }}</p>
-            </div>
-          </div>
+        <div>
+          <!-- Die classen + Styles mit in die Component rüber nehmen -->
+          <ActivityList :activities="userActivities"></ActivityList>
         </div>
       </div>
-
       <br />
     </form>
   </div>
@@ -102,6 +81,7 @@
 </template>
 
 <script>
+import ActivityList from "@/components/ActivityListComponent.vue";
 import { getAuth } from "firebase/auth";
 import { db } from "@/stores/firebase";
 import {
@@ -118,7 +98,7 @@ import { useRouter } from "vue-router";
 import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
-  components: { ModalComponent },
+  components: { ModalComponent, ActivityList },
   data() {
     return {
       userActivities: [],
@@ -179,8 +159,8 @@ export default {
     },
   },
 
-  mounted() {
-    this.getAddData();
+  async created() {
+    await this.getAddData();
   },
 };
 </script>
@@ -188,10 +168,6 @@ export default {
 /*.btn_close {
   cursor: pointer;
 }*/
-
-body {
-  background-color: #5bc0de;
-}
 
 /* Center rectangle */
 .center-rectangle {
@@ -234,34 +210,5 @@ body {
 .add-activity-btn:hover {
   cursor: pointer;
   background-color: #ace0ef;
-}
-
-/* Style for activity item*/
-
-.activity-wrapper {
-  display: grid;
-  gap: 40px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  padding-top: 40px;
-}
-
-.activity-item {
-  border: 2px solid #5bc0de;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: yellow;
-  font-size: 16px;
-  color: #666;
-  box-sizing: border-box;
-  flex-basis: calc(20% - 20px);
-  max-width: 100%;
-  text-align: center;
-}
-
-.cyan-rectangle-activity-list {
-  background-color: white;
-  color: #a75f4a;
-  border-radius: 2px;
-  margin: 2px;
 }
 </style>

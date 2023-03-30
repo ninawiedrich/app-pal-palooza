@@ -14,16 +14,7 @@
         </button>
       </div>
     </div>
-    <!-- <activityList :activities="filteredActivities"></activityList> -->
-    <div v-for="activity in filteredActivities" :key="activity.id">
-      {{ activity.user.username }}<br />
-      {{ activity.user.userAge }} <br />
-      {{ activity.user.userGender }} <br />
-      {{ activity.location }} <br />
-      {{ activity.date }} <br />
-      {{ activity.time }} <br />
-      {{ activity.activity }}
-    </div>
+    <ActivityList :activities="filteredActivities"></ActivityList>
   </div>
   <!-- Modal -->
   <ModalComponent :title="'Search Activity'">
@@ -104,6 +95,7 @@
 </template>
 
 <script>
+import ActivityList from "@/components/ActivityListComponent.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { ref } from "vue";
 import { db } from "@/stores/firebase";
@@ -117,7 +109,7 @@ import {
 } from "firebase/firestore";
 
 export default {
-  components: { ModalComponent },
+  components: { ModalComponent, ActivityList },
   data() {
     return {
       userActivities: [],
