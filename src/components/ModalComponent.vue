@@ -41,13 +41,13 @@ export default {
 
 <style>
 .modal-style .modal-content {
-  background-color: white;
+  background-color: var(--styling-color);
   border-radius: 10px;
 }
 
 .modal-style .modal-header {
-  background-color: #5bc0de;
-  color: yellow;
+  background-color: var(--background-color);
+  color: var(--second-backround-color);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -58,8 +58,8 @@ export default {
 
 .modal-style .form-control {
   border-radius: 5px;
-  border: 2px solid #31b0d5;
-  background-color: yellow;
+  border: 2px solid var(--background-color);
+  background-color: var(--second-backround-color);
   padding: 10px;
   margin-bottom: 20px;
   font-size: 16px;
@@ -77,8 +77,8 @@ export default {
 }
 
 .modal-style .btn-primary {
-  background-color: #5bc0de;
-  color: yellow;
+  background-color: var(--background-color);
+  color: var(--second-backround-color);
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -88,15 +88,15 @@ export default {
 
 .modal-style .btn-primary:hover {
   cursor: pointer;
-  background-color: #31b0d5;
+  background-color: var(--background-color);
 }
 
 .modal-style .btn_close {
-  background-color: #a75f4a;
-  border: 2px solid #ff9900;
+  background-color: var(--button-color);
+  border: 2px solid var(--border-color);
 }
 
 .modal-style .btn_close:hover {
-  background-color: #ace0ef;
+  background-color: var(--button-hover-color);
 }
 </style>

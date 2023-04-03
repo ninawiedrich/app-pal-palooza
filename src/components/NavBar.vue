@@ -71,7 +71,7 @@
 
 <style scoped>
 .navbar {
-  background-color: #5bc0de;
+  background-color: var(--background-color);
   height: 120px;
   position: absolut;
   padding: 0;
@@ -79,41 +79,41 @@
 }
 
 .navbar-brand {
-  background-color: yellow;
+  background-color: var(--second-backround-color);
   height: 120px;
   padding-left: 50px;
   padding-top: 20px;
 }
 
 .logo-rectangle {
-  background-color: yellow;
+  background-color: var(--second-backround-color);
   width: 250px;
 }
 
 .nav-item {
-  color: yellow;
+  color: var(--second-backround-color);
   font-weight: bold;
   margin-right: 30px;
   position: relative;
 }
 
 .nav-link:hover {
-  color: brown;
+  color: var(--text-color);
 }
 
 .nav-item .active-link {
-  color: brown;
+  color: var(--text-color);
 }
 .nav-link {
-  color: yellow;
+  color: var(--second-backround-color);
   text-decoration: none;
   position: relative;
 }
 
 .btn-outline-success {
-  background-color: yellow;
+  background-color: var(--second-backround-color);
   font-weight: bold;
-  color: #a75f4a;
+  color: var(--button-color);
 }
 
 .navbar-nav::after {
@@ -124,7 +124,11 @@
   right: 0;
   bottom: -6px;
   height: 6px;
-  background: linear-gradient(to bottom, yellow, navy);
+  background: linear-gradient(
+    to bottom,
+    var(--second-backround-color),
+    var(--nav-decoration-color)
+  );
 }
 .navbar-nav::after {
   content: "";
@@ -134,13 +138,17 @@
   right: 0;
   bottom: -6px;
   height: 6px;
-  background: linear-gradient(to bottom, yellow, navy);
+  background: linear-gradient(
+    to bottom,
+    var(--second-backround-color),
+    var(--nav-decoration-color)
+  );
 }
 
 .nav-decoration {
   height: 5px;
   width: 500px;
-  background-color: navy;
+  background-color: var(--nav-decoration-color);
   position: absolute;
   bottom: 30px;
   right: 0px;
@@ -148,7 +156,7 @@
 
 .nav-decoration-narrow {
   height: 10px;
-  background-color: yellow;
+  background-color: var(--second-backround-color);
   position: absolute;
   bottom: 0;
   left: 0;

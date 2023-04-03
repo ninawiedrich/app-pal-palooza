@@ -24,45 +24,46 @@
 
           <div class="activity-item activity-item-large">
             <div>
-              <span class="fixed-text">User name:</span> {{ userdata.username }}
+              <span class="fixed-text">User name: </span>
+              {{ userdata.username }}
             </div>
             <br />
             <div>
-              <span class="fixed-text">First name:</span
+              <span class="fixed-text">First name: </span
               >{{ userdata.firstName }}
             </div>
             <br />
             <div>
-              <span class="fixed-text">Last name:</span>{{ userdata.lastName }}
+              <span class="fixed-text">Last name: </span>{{ userdata.lastName }}
             </div>
             <br />
             <div>
-              <span class="fixed-text">Age:</span> {{ userdata.userAge }}
+              <span class="fixed-text">Age: </span> {{ userdata.userAge }}
             </div>
             <br />
             <div>
-              <span class="fixed-text">Gender:</span> {{ userdata.userGender }}
+              <span class="fixed-text">Gender: </span> {{ userdata.userGender }}
             </div>
             <br />
             <div>
-              <span class="fixed-text">Job:</span> {{ userdata.userJob }}
+              <span class="fixed-text">Job: </span> {{ userdata.userJob }}
             </div>
             <br />
           </div>
           <div class="activity-item">
-            <label class="form-label">In my free time</label>
+            <label class="form-label">In my free time </label>
             {{ userdata.userFreeTime }}
           </div>
           <div class="activity-item">
-            <label class="form-label">I like</label>
+            <label class="form-label">I like </label>
             {{ userdata.userLike }}
           </div>
           <div class="activity-item">
-            <label class="form-label">I don't like</label>
+            <label class="form-label">I don't like </label>
             {{ userdata.userDontLike }}
           </div>
           <div class="activity-item">
-            <label class="form-label">Few words about me</label>
+            <label class="form-label">Few words about me </label>
             {{ userdata.userAboutMe }}
           </div>
         </div>
@@ -211,9 +212,11 @@ import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import ColorComponent from "@/components/ColorComponent.vue";
 
 export default {
   components: { ModalComponent },
+  name: ColorComponent,
   data() {
     const router = useRouter();
     return {
@@ -294,7 +297,7 @@ export default {
 </script>
 <style scoped>
 .center-rectangle {
-  background: linear-gradient(#5bc0de, white);
+  background: linear-gradient(var(--background-color), var(--styling-color));
   padding: 40px;
   margin-top: 10px;
   border-radius: 40px;
@@ -307,7 +310,7 @@ export default {
 }
 
 body {
-  background-color: #5bc0de;
+  background-color: var(--background-color);
 }
 
 .btn_close {
@@ -328,9 +331,9 @@ body {
 
 /* Style for add activity button */
 .add-activity-btn {
-  background-color: #a75f4a;
-  color: yellow;
-  border: 2px solid #ff9900;
+  background-color: var(--button-color);
+  color: var(--second-backround-color);
+  border: 2px solid var(--border-color);
   border-radius: 5px;
   padding: 5px 15px;
   font-size: 16px;
@@ -339,7 +342,7 @@ body {
 
 .add-activity-btn:hover {
   cursor: pointer;
-  background-color: #ace0ef;
+  background-color: var(--button-hover-color);
 }
 
 .fixed-text {
@@ -357,12 +360,12 @@ body {
 
 .activity-item {
   grid-column: 2;
-  border: 2px solid #5bc0de;
+  border: 2px solid var(--background-color);
   border-radius: 10px;
   padding: 20px;
-  background-color: #5bc0de;
+  background-color: var(--background-color);
   font-size: 16px;
-  color: brown;
+  color: var(--text-color);
   box-sizing: border-box;
   flex-basis: calc(20% - 20px);
   max-width: 100%;
