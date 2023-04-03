@@ -54,7 +54,7 @@ export default {
 <style>
 /* Center rectangle */
 .center-rectangle {
-  background: linear-gradient(#5bc0de, white);
+  background: linear-gradient(var(--background-color), var(--styling-color));
   padding: 40px;
   margin-top: 10px;
   border-radius: 40px;
@@ -66,7 +66,7 @@ export default {
   padding: 40px;
 }
 body {
-  background-color: #5bc0de;
+  background-color: var(--background-color);
 }
 /* Style for add activity button container */
 .activity-list-actions {
@@ -82,9 +82,9 @@ body {
 
 /* Style for add activity button */
 .add-activity-btn {
-  background-color: #a75f4a;
-  color: yellow;
-  border: 2px solid #ff9900;
+  background-color: var(--button-color);
+  color: var(--second-backround-color);
+  border: 2px solid var(--border-color);
   border-radius: 5px;
   padding: 5px 15px;
   font-size: 16px;
@@ -93,7 +93,7 @@ body {
 
 .add-activity-btn:hover {
   cursor: pointer;
-  background-color: #ace0ef;
+  background-color: var(--button-hover-color);
 }
 /* Style for activity item*/
 
@@ -105,10 +105,10 @@ body {
 }
 
 .activity-item {
-  border: 2px solid #5bc0de;
+  border: 2px solid var(--background-color);
   border-radius: 10px;
   padding: 20px;
-  background-color: yellow;
+  background-color: var(--second-backround-color);
   font-size: 16px;
   color: #666;
   box-sizing: border-box;
@@ -118,8 +118,8 @@ body {
 }
 
 .white-rectangle-activity-list {
-  background-color: white;
-  color: #a75f4a;
+  background-color: var(--styling-color);
+  color: var(--button-color);
   border-radius: 2px;
   margin: 2px;
 }

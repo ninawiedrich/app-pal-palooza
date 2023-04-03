@@ -35,8 +35,10 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useRouter } from "vue-router"; //import router
+import ColorComponent from "@/components/ColorComponent.vue";
 
 export default {
+  name: "ColorComponent",
   data() {
     const router = useRouter();
     return {

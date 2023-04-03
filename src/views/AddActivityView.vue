@@ -96,9 +96,11 @@ import {
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import ModalComponent from "@/components/ModalComponent.vue";
+import ColorComponent from "@/components/ColorComponent.vue";
 
 export default {
   components: { ModalComponent, ActivityList },
+  name: ColorComponent,
   data() {
     return {
       userActivities: [],

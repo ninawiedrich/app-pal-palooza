@@ -37,8 +37,10 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "vue-router"; //import router
+import ColorComponent from "@/components/ColorComponent.vue";
 
 export default {
+  name: "ColorComponent",
   data() {
     const router = useRouter();
     return {

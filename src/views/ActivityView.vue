@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import ColorComponent from "@/components/ColorComponent.vue";
 import ActivityList from "@/components/ActivityListComponent.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import { ref } from "vue";
@@ -114,6 +115,7 @@ import {
 
 export default {
   components: { ModalComponent, ActivityList },
+  name: ColorComponent,
   data() {
     return {
       userActivities: [],
