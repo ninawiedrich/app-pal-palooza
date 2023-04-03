@@ -5,29 +5,29 @@
       :key="activity.id"
       class="activity-item"
     >
-      <div class="cyan-rectangle-activity-list">
+      <div class="white-rectangle-activity-list">
         <p>{{ activity.location }}</p>
       </div>
       <template v-if="activity.user">
-        <div class="cyan-rectangle-activity-list">
+        <div class="white-rectangle-activity-list">
           <p>{{ activity.user.username }}</p>
         </div>
-        <div class="cyan-rectangle-activity-list">
+        <div class="white-rectangle-activity-list">
           <p>{{ activity.user.userAge }}</p>
         </div>
-        <div class="cyan-rectangle-activity-list">
+        <div class="white-rectangle-activity-list">
           <p>{{ activity.user.userGender }}</p>
         </div>
       </template>
-      <div class="cyan-rectangle-activity-list">
+      <div class="white-rectangle-activity-list">
         <p>{{ activity.date }}</p>
       </div>
       <!-- check how -->
-      <div class="cyan-rectangle-activity-list">
+      <div class="white-rectangle-activity-list">
         <p>{{ activity.time }}</p>
       </div>
       <!-- check how -->
-      <div class="cyan-rectangle-activity-list">
+      <div class="white-rectangle-activity-list">
         <p>{{ activity.activity }}</p>
       </div>
     </div>
@@ -116,7 +116,8 @@ body {
   max-width: 100%;
   text-align: center;
 }
-.cyan-rectangle-activity-list {
+
+.white-rectangle-activity-list {
   background-color: white;
   color: #a75f4a;
   border-radius: 2px;

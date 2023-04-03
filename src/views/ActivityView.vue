@@ -1,5 +1,5 @@
 <template>
-  <div class="container activity-page">
+  <div class="container">
     <form>
       <div class="center-rectangle">
         <div class="activity-list-actions">
