@@ -212,11 +212,10 @@ import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ColorComponent from "@/components/ColorComponent.vue";
 
 export default {
   components: { ModalComponent },
-  name: ColorComponent,
+  name: "ProfileView",
   data() {
     const router = useRouter();
     return {
@@ -246,9 +245,7 @@ export default {
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          // You can display progress here if needed
-        },
+        (snapshot) => {},
         (error) => {
           console.log("Error uploading file:", error);
         },
@@ -296,23 +293,6 @@ export default {
 };
 </script>
 <style scoped>
-.center-rectangle {
-  background: linear-gradient(var(--background-color), var(--styling-color));
-  padding: 40px;
-  margin-top: 10px;
-  border-radius: 40px;
-}
-/* Style for container */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 40px;
-}
-
-body {
-  background-color: var(--background-color);
-}
-
 .btn_close {
   cursor: pointer;
 }
