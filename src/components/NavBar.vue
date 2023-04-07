@@ -46,13 +46,15 @@
         </li>
 
         <li class="nav-item" v-if="!isLoggedIn">
-          <RouterLink to="/sign-in" class="btn btn-outline-success"
+          <RouterLink
+            to="/sign-in"
+            class="btn btn-outline-success add-activity-btn:hover"
             >Log in</RouterLink
           >
         </li>
         <li class="nav-item" v-if="isLoggedIn">
           <button
-            class="btn btn-outline-success"
+            class="btn btn-outline-success add-activity-btn:hover"
             type="submit"
             @click="handleSignOut"
           >
@@ -110,12 +112,6 @@
   position: relative;
 }
 
-.btn-outline-success {
-  background-color: var(--second-backround-color);
-  font-weight: bold;
-  color: var(--button-color);
-}
-
 .navbar-nav::after {
   content: "";
   position: absolute;
@@ -161,5 +157,16 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.add-activity-btn:hover {
+  cursor: pointer;
+  background-color: var(--button-hover-color);
+}
+.btn-outline-success:hover {
+  background-color: var(--button-hover-color);
+}
+.btn-outline-success {
+  border: 2px solid var(--border-color);
 }
 </style>
