@@ -163,7 +163,6 @@
   cursor: pointer;
   background-color: var(--button-hover-color);
 }
-
 .btn-outline-success:hover {
   background-color: var(--button-hover-color);
 }
