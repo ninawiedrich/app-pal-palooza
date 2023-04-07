@@ -58,7 +58,7 @@
             type="submit"
             @click="handleSignOut"
           >
-            <p>Sign out</p>
+            Sign out
           </button>
         </li>
       </ul>
@@ -69,7 +69,38 @@
   </nav>
 </template>
 
-<script></script>
+<script>
+import { ref } from "vue";
+import { getAuth, signOut } from "firebase/auth";
+
+export default {
+  name: "NavBar",
+  setup() {
+    const isLoggedIn = ref(false);
+    const auth = getAuth();
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        isLoggedIn.value = true;
+      } else {
+        isLoggedIn.value = false;
+      }
+    });
+
+    const handleSignOut = () => {
+      signOut(auth)
+        .then(() => {
+          console.log("User signed out");
+        })
+        .catch((error) => {
+          console.error("Error signing out:", error);
+        });
+    };
+
+    return { isLoggedIn, handleSignOut };
+  },
+};
+</script>
 
 <style scoped>
 .navbar {
