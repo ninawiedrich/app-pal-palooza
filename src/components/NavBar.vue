@@ -167,7 +167,6 @@
 .btn-outline-success:hover {
   background-color: var(--button-hover-color);
 }
-
 .btn-outline-success {
   border: 2px solid var(--border-color);
 }
