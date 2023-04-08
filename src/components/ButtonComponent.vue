@@ -1,12 +1,23 @@
 <template>
-  <button>{{ buttonText }}</button>
+  <button
+    type="button"
+    class="add-activity-btn add-activity-btn-container"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+  >
+    {{ btnName }}
+  </button>
 </template>
+
 <script>
 export default {
   name: "ButtonComponent",
-  props: ["buttonText"],
+  props: {
+    btnName: String,
+  },
 };
 </script>
+
 <style>
 .btn_close {
   cursor: pointer;

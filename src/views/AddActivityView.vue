@@ -9,7 +9,7 @@
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
           >
-            Add activity
+            Add Activity
           </button>
         </div>
         <div>

@@ -9,7 +9,7 @@
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
           >
-            Search activty
+            Search Activty
           </button>
         </div>
         <div>

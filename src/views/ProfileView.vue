@@ -4,12 +4,7 @@
       <div class="center-rectangle">
         <div class="activity-list-actions">
           <!-- Button trigger modal -->
-          <ButtonComponent
-            buttonText="My profile"
-            class="add-activity-btn add-activity-btn-container"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          />
+          <ButtonComponent :btnName="'My Profile'" />
         </div>
         <div class="activity-grid activity-wrapper">
           <div class="activity-item activity-item-large">

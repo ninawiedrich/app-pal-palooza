@@ -41,7 +41,7 @@
             to="/profile"
             class="nav-link"
             active-class="active-link"
-            >My profile</RouterLink
+            >My Profile</RouterLink
           >
         </li>
 
