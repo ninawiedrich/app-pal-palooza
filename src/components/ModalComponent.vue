@@ -11,7 +11,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ title }}</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            {{ title }}
+          </h1>
           <button
             type="button"
             class="btn-close"
@@ -74,29 +76,5 @@ export default {
   font-weight: bold;
   margin-bottom: 10px;
   display: block;
-}
-
-.modal-style .btn-primary {
-  background-color: var(--background-color);
-  color: var(--second-backround-color);
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.modal-style .btn-primary:hover {
-  cursor: pointer;
-  background-color: var(--background-color);
-}
-
-.modal-style .btn_close {
-  background-color: var(--button-color);
-  border: 2px solid var(--border-color);
-}
-
-.modal-style .btn_close:hover {
-  background-color: var(--button-hover-color);
 }
 </style>

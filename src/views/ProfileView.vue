@@ -4,14 +4,7 @@
       <div class="center-rectangle">
         <div class="activity-list-actions">
           <!-- Button trigger modal -->
-          <button
-            type="button"
-            class="add-activity-btn add-activity-btn-container"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
-            my profile
-          </button>
+          <ButtonComponent :btnName="'My Profile'" />
         </div>
         <div class="activity-grid activity-wrapper">
           <div class="activity-item activity-item-large">
@@ -192,14 +185,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-primary btn_close"
-        @click="submitData"
-        data-bs-dismiss="modal"
-      >
-        Update
-      </button>
+      <ButtonComponent @click="submitData" :btnName="'My Profile'" />
     </div>
   </ModalComponent>
 </template>
@@ -212,9 +198,10 @@ import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 
 export default {
-  components: { ModalComponent },
+  components: { ModalComponent, ButtonComponent },
   name: "ProfileView",
   data() {
     const router = useRouter();
@@ -293,36 +280,10 @@ export default {
 };
 </script>
 <style scoped>
-.btn_close {
-  cursor: pointer;
-}
-
 /* Style for add activity button container */
 .activity-list-actions {
   display: flex;
   justify-content: end;
-}
-
-.add-activity-btn-container {
-  /*position: absolute;*/
-  top: 30px;
-  right: 40px;
-}
-
-/* Style for add activity button */
-.add-activity-btn {
-  background-color: var(--button-color);
-  color: var(--second-backround-color);
-  border: 2px solid var(--border-color);
-  border-radius: 5px;
-  padding: 5px 15px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.add-activity-btn:hover {
-  cursor: pointer;
-  background-color: var(--button-hover-color);
 }
 
 .fixed-text {
