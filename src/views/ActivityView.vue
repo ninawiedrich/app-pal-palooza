@@ -24,16 +24,17 @@
         <option value="diverse">Diverse</option>
       </select>
     </div>
-    <div class="col-sm-6 col-md-3">
-      <div class="mb-4">
-        <label class="form-label">Age</label>
-        <input
-          class="form-control"
-          type="number"
-          placeholder="age"
-          v-model="userAge"
-        />
-      </div>
+    <div class="mb-4">
+      <label class="form-label">Age</label>
+      <select class="form-control custom-select" v-model="userAge">
+        <option disabled value="">Please select your option</option>
+        <option value="18-25">18-25</option>
+        <option value="25-35">25-35</option>
+        <option value="35-45">35-45</option>
+        <option value="45-55">45-55</option>
+        <option value="55-65">55-65</option>
+        <option value="65">65 and ></option>
+      </select>
     </div>
     <div class="col-sm-6 col-md-3">
       <div class="mb-4">
@@ -111,7 +112,7 @@ export default {
       date: ref(""),
       time: ref(""),
       activity: ref(""),
-      userAge: ref(null),
+      userAge: ref(""),
       userGender: ref(""),
     };
   },
@@ -124,9 +125,12 @@ export default {
         );
       }
       if (this.userAge !== null) {
-        filteredActivities = filteredActivities.filter(
-          (activity) => activity.user.userAge === this.userAge
-        );
+        const [minAge, maxAge] = this.userAge.split("-");
+
+        filteredActivities = filteredActivities.filter((activity) => {
+          const age = activity.user.userAge;
+          return age >= minAge && (maxAge ? age <= maxAge : true);
+        });
       }
       if (this.location.length > 0) {
         filteredActivities = filteredActivities.filter((activity) =>
