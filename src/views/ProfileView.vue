@@ -185,14 +185,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-primary btn_close"
-        @click="submitData"
-        data-bs-dismiss="modal"
-      >
-        Update
-      </button>
+      <ButtonComponent @click="submitData" :btnName="'My Profile'" />
     </div>
   </ModalComponent>
 </template>

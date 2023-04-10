@@ -3,14 +3,7 @@
     <form>
       <div class="center-rectangle">
         <div class="activity-list-actions">
-          <button
-            type="button"
-            class="add-activity-btn add-activity-btn-container"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
-            Add Activity
-          </button>
+          <ButtonComponent :btnName="'Add Activity'" />
         </div>
         <div>
           <!-- Die classen + Styles mit in die Component rüber nehmen -->
@@ -68,14 +61,7 @@
       </div>
     </div>
     <template v-slot:footer>
-      <button
-        type="button"
-        class="btn btn-primary btn_close"
-        @click="submitAddData"
-        data-bs-dismiss="modal"
-      >
-        Submit
-      </button>
+      <ButtonComponent @click="submitAddData" :btnName="'Submit'" />
     </template>
   </ModalComponent>
 </template>
@@ -96,9 +82,10 @@ import {
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import ModalComponent from "@/components/ModalComponent.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 
 export default {
-  components: { ModalComponent, ActivityList },
+  components: { ModalComponent, ActivityList, ButtonComponent },
   name: "AddActivityView",
   data() {
     return {
