@@ -6,14 +6,12 @@
           <ButtonComponent :btnName="'Search Activity'" />
         </div>
         <div>
-          <!-- Die classen + Styles mit in die Component rüber nehmen -->
           <ActivityList :activities="filteredActivities"></ActivityList>
         </div>
       </div>
       <br />
     </form>
   </div>
-  <!-- Modal -->
   <ModalComponent :title="'Search Activity'" class="modal-style">
     <div class="mb-4">
       <label class="form-label">Gender</label>
@@ -69,6 +67,16 @@
         />
       </div>
     </div>
+    <div class="mb-4">
+      <label class="form-label">Art of activity</label>
+      <select class="form-control custom-select" v-model="activityGroup">
+        <option disabled value="">Please select your option</option>
+        <option value="Sports">Sports</option>
+        <option value="Arts">Arts</option>
+        <option value="Education">Education</option>
+        <option value="Entertainment">Entertainment</option>
+      </select>
+    </div>
     <div class="col-sm-6 col-md-3">
       <div class="mb-4">
         <label class="form-label">Activity</label>
@@ -112,6 +120,7 @@ export default {
       date: ref(""),
       time: ref(""),
       activity: ref(""),
+      activityGroup: ref(""),
       userAge: ref(""),
       userGender: ref(""),
     };
@@ -145,6 +154,14 @@ export default {
       if (this.time.length > 0) {
         filteredActivities = filteredActivities.filter(
           (activity) => activity.time === this.time
+        );
+      }
+
+      if (this.activityGroup.length !== null) {
+        filteredActivities = filteredActivities.filter((activity) =>
+          activity.activityGroup
+            .toLowerCase()
+            .includes(this.activityGroup.toLowerCase())
         );
       }
 
@@ -182,6 +199,7 @@ export default {
         const activityDetail = {
           id: doc.id,
           activity: activityData.activity,
+          activityGroup: activityData.activityGroup,
           date: activityData.date,
           location: activityData.location,
           time: activityData.time,
@@ -197,7 +215,6 @@ export default {
 
   async created() {
     await this.getAddData();
-    /*setTimeout(() => console.log("Frietag"), 10000);*/
   },
 };
 </script>

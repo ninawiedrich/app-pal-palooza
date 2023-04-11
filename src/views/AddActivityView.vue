@@ -49,13 +49,28 @@
         />
       </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+
+    <div class="mb-4">
+      <label class="form-label">Art of activity</label>
+      <select class="form-control custom-select" v-model="selectedGroup">
+        <option disabled value="">Please select your group</option>
+        <option
+          v-for="(group, index) in activityGroups"
+          :key="index"
+          :value="group.name"
+        >
+          {{ group.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-sm-6 col-md-3" v-if="selectedGroup">
       <div class="mb-4">
         <label class="form-label">Activity</label>
         <input
           class="form-control"
           type="text"
-          placeholder="Activity"
+          :placeholder="`Enter ${selectedGroup} activity`"
           v-model="activity"
         />
       </div>
@@ -95,6 +110,13 @@ export default {
       date: ref(""),
       time: ref(""),
       activity: ref(""),
+      selectedGroup: "",
+      activityGroups: [
+        { name: "Sports" },
+        { name: "Arts" },
+        { name: "Education" },
+        { name: "Entertainment" },
+      ],
     };
   },
   methods: {
@@ -115,11 +137,10 @@ export default {
         date: this.date,
         time: this.time,
         activity: this.activity,
+        activityGroup: this.selectedGroup,
         userId: this.user.id,
       });
       console.log("activity created: ", docRef.id);
-      /*const router = useRouter();
-      router.push("/Activity");*/
       this.getAddData();
     },
 
@@ -139,6 +160,7 @@ export default {
           date: doc.data().date,
           location: doc.data().location,
           time: doc.data().time,
+          activityGroup: doc.data().activityGroup,
         };
         userdetails.push(userdetail);
       });
