@@ -199,7 +199,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import ButtonComponent from "@/components/ButtonComponent.vue";
-
 export default {
   components: { ModalComponent, ButtonComponent },
   name: "ProfileView",
@@ -226,10 +225,8 @@ export default {
     async uploadFile(event) {
       const file = event.target.files[0];
       if (!file) return;
-
       const storageRef = storageRef(storage, `profileImages/${this.user.uid}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
       uploadTask.on(
         "state_changed",
         (snapshot) => {},
@@ -285,11 +282,9 @@ export default {
   display: flex;
   justify-content: end;
 }
-
 .fixed-text {
   color: black;
 }
-
 .activity-wrapper {
   display: grid;
   gap: 40px;
@@ -298,7 +293,6 @@ export default {
   grid-template-columns: 1fr 2fr;
   padding-top: 40px;
 }
-
 .activity-item {
   grid-column: 2;
   border: 2px solid var(--background-color);
@@ -312,7 +306,6 @@ export default {
   max-width: 100%;
   text-align: left;
 }
-
 .activity-item-large {
   grid-row-end: span 2;
   grid-column: 1;
