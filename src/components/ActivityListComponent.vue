@@ -73,13 +73,11 @@ body {
   display: flex;
   justify-content: end;
 }
-
 .add-activity-btn-container {
   /*position: absolute;*/
   top: 30px;
   right: 40px;
 }
-
 /* Style for add activity button */
 .add-activity-btn {
   background-color: var(--button-color);
@@ -90,20 +88,17 @@ body {
   font-size: 16px;
   font-weight: bold;
 }
-
 .add-activity-btn:hover {
   cursor: pointer;
   background-color: var(--button-hover-color);
 }
 /* Style for activity item*/
-
 .activity-wrapper {
   display: grid;
   gap: 40px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   padding-top: 40px;
 }
-
 .activity-item {
   border: 2px solid var(--background-color);
   border-radius: 10px;
@@ -116,7 +111,6 @@ body {
   max-width: 100%;
   text-align: center;
 }
-
 .white-rectangle-activity-list {
   background-color: var(--styling-color);
   color: var(--button-color);

@@ -108,7 +108,6 @@ import {
   query,
   where,
 } from "firebase/firestore";
-
 export default {
   components: { ModalComponent, ActivityList, ButtonComponent },
   name: "ActivityView",
@@ -135,7 +134,6 @@ export default {
       }
       if (this.userAge !== null) {
         const [minAge, maxAge] = this.userAge.split("-");
-
         filteredActivities = filteredActivities.filter((activity) => {
           const age = activity.user.userAge;
           return age >= minAge && (maxAge ? age <= maxAge : true);
@@ -156,7 +154,6 @@ export default {
           (activity) => activity.time === this.time
         );
       }
-
       if (this.activityGroup.length !== null) {
         filteredActivities = filteredActivities.filter((activity) =>
           activity.activityGroup
@@ -164,7 +161,6 @@ export default {
             .includes(this.activityGroup.toLowerCase())
         );
       }
-
       if (this.activity.length > 0) {
         filteredActivities = filteredActivities.filter((activity) =>
           activity.activity.toLowerCase().includes(this.activity.toLowerCase())
@@ -173,7 +169,6 @@ export default {
       return filteredActivities;
     },
   },
-
   methods: {
     async getUserData(userId) {
       const docRef = doc(db, "users", userId);
@@ -185,15 +180,12 @@ export default {
       } else {
         console.log("No such document!");
       }
-
       return user;
     },
-
     async getAddData() {
       const q2 = query(collection(db, "activities"));
       const activities = [];
       const querySnapshot = await getDocs(q2);
-
       for (let doc of querySnapshot.docs) {
         const activityData = doc.data();
         const activityDetail = {
@@ -204,15 +196,12 @@ export default {
           location: activityData.location,
           time: activityData.time,
         };
-
         activityDetail.user = await this.getUserData(activityData.userId);
         activities.push(activityDetail);
       }
-
       this.userActivities = activities;
     },
   },
-
   async created() {
     await this.getAddData();
   },
