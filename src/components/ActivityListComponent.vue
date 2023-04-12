@@ -10,7 +10,10 @@
       </div>
       <template v-if="activity.user">
         <div class="white-rectangle-activity-list">
-          <p>{{ activity.user.username }}</p>
+          <RouterLink
+            :to="{ name: 'UsersProfile', params: { userId: activity.user.id } }"
+            >{{ activity.user.username }}</RouterLink
+          >
         </div>
         <div class="white-rectangle-activity-list">
           <p>{{ activity.user.userAge }}</p>
