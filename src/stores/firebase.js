@@ -20,9 +20,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const messaging = getMessaging();
-// getToken(messaging, {
-//   vapidKey:
-//     "BIdQpNVc_cWdol0oeixbZfWvnJmONOVF_tB-354aAaYpMzYKsbuaYFGA1zgAMXM8GRnVFb2akrynBq1RJYRkN_c",
-// });
+getToken(messaging, {
+  vapidKey:
+    "BIdQpNVc_cWdol0oeixbZfWvnJmONOVF_tB-354aAaYpMzYKsbuaYFGA1zgAMXM8GRnVFb2akrynBq1RJYRkN_c",
+});
 
-export { auth, db, storage };
+export { auth, db, storage, messaging };

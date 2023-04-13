@@ -182,7 +182,7 @@ export default {
 
 .nav-decoration {
   height: 5px;
-  width: 500px;
+  width: 590px;
   background-color: var(--nav-decoration-color);
   position: absolute;
   bottom: 30px;

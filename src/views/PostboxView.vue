@@ -4,11 +4,7 @@
 
     <section>
       <main>
-        <div
-          v-for="(msg, index) in messages"
-          v-bind:key="'index-' + index"
-          class="['message', sentOrReceived(msg.userID)]"
-        >
+        <div v-for="(msg, index) in messages" v-bind:key="'index-' + index">
           <img :src="msg.photoURL" :alt="msg.displayName" />
           <p>{{ msg.text }}</p>
         </div>
@@ -16,42 +12,57 @@
         <div ref="scrollable"></div>
       </main>
       <form v-on:submit.prevent="sendMessage">
-        <input
-          v-model="message"
-          type="text"
-          placeholder="Enter your message!"
-        />
-        <button :disabled="!message" type="submit">Send</button>
+        <div class="form-group">
+          <input
+            class="form-control"
+            v-model="message"
+            type="text"
+            placeholder="Enter your message!"
+          />
+
+          <ButtonComponent
+            :disabled="!message"
+            type="submit"
+            @click="submitData"
+            :btnName="'Send'"
+          />
+        </div>
       </form>
     </section>
   </div>
 </template>
 
 <script>
-// import firebase from "firebase";
-import { db, storage, storageRef } from "@/stores/firebase.js";
-import { getAuth, auth } from "firebase/auth";
-import { updateDoc, doc, getDoc, firestore } from "firebase/firestore";
-import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import ButtonComponent from "@/components/ButtonComponent.vue";
+import { messaging, auth, db } from "@/stores/firebase.js";
+import { onMessage } from "firebase/messaging";
 
 export default {
-  mounted() {
-    console.log(this.user);
-    db.collection("messages")
-      .orderBy("createdAt")
-      .onSnapshot((querySnap) => {
-        this.messages = querySnap.docs.map((doc) => doc.data());
-      });
-  },
+  components: { ButtonComponent },
   data() {
     return {
-      user: getAuth().currentUser,
+      user: auth.currentUser,
       message: "",
       messages: [],
     };
   },
   methods: {
-    sentOrReceived(userUID) {
+    requestPermission() {
+      console.log("Requesting permission...");
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+        }
+      });
+    },
+    messaging() {
+      onMessage(messaging, (payload) => {
+        console.log("Message received. ", payload);
+        // ...
+      });
+    },
+
+    /* sentOrReceived(userUID) {
       return userUID === this.user.uid ? "sent" : "received";
     },
     async sendMessage() {
@@ -63,11 +74,24 @@ export default {
         createdAt: Date.now(),
       };
 
-      //   await this.db.collection("messages").add(messageInfo);
+      await this.db.collection("messages").add(messageInfo);
 
       this.message = "";
-      //   this.$refs["scrollable"].scrollIntoView({ behavior: "smooth" });
-    },
+      this.$refs["scrollable"].scrollIntoView({ behavior: "smooth" });
+    }, */
+  },
+  mounted() {
+    this.requestPermission();
+    console.log(this.user);
   },
 };
 </script>
+
+<style scoped>
+.form-group {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 20px;
+}
+</style>
