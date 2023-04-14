@@ -1,19 +1,19 @@
 <template>
   <div class="activity-list activity-wrapper">
     <div
+      @click="$emit('showUserProfile', activity.user)"
+      data-bs-toggle="modal"
+      data-bs-target="#userProfileModal"
       v-for="activity in activities"
       :key="activity.id"
-      class="activity-item"
+      class="activity-item activity-liste-btn"
     >
       <div class="white-rectangle-activity-list">
         <p>{{ activity.location }}</p>
       </div>
       <template v-if="activity.user">
         <div class="white-rectangle-activity-list">
-          <RouterLink
-            :to="{ name: 'UsersProfile', params: { userId: activity.user.id } }"
-            >{{ activity.user.username }}</RouterLink
-          >
+          <p>{{ activity.user.username }}</p>
         </div>
         <div class="white-rectangle-activity-list">
           <p>{{ activity.user.userAge }}</p>
@@ -91,7 +91,16 @@ body {
   font-size: 16px;
   font-weight: bold;
 }
-.add-activity-btn:hover {
+
+.activity-liste-btn {
+  background-color: var(--button-color);
+  color: var(--second-backround-color);
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 16px;
+}
+.activity-liste-btn:hover {
   cursor: pointer;
   background-color: var(--button-hover-color);
 }

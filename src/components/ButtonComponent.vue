@@ -3,7 +3,7 @@
     type="button"
     class="add-activity-btn add-activity-btn-container"
     data-bs-toggle="modal"
-    data-bs-target="#staticBackdrop"
+    data-bs-target="#modalComponent"
   >
     {{ btnName }}
   </button>
