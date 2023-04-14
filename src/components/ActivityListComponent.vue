@@ -111,7 +111,7 @@ body {
   color: #666;
   box-sizing: border-box;
   flex-basis: calc(20% - 20px);
-  max-width: 100%;
+  max-width: 300px;
   text-align: center;
 }
 .white-rectangle-activity-list {

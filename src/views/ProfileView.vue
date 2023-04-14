@@ -70,7 +70,7 @@
       <label class="form-label">Profile Image</label>
       <input type="file" @change="uploadFile" />
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-6">
       <div class="mb-4">
         <label class="form-label">Username</label>
         <input
@@ -114,9 +114,9 @@
         />
       </div>
     </div>
-    <div class="col-md-5">
+    <div>
       <div class="mb-4">
-        <div class="col-md-5">
+        <div class="col-sm-6 col-md-6">
           <div class="mb-4">
             <label class="form-label">Gender</label>
             <select class="form-control custom-select" v-model="userGender">
@@ -129,7 +129,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-md-4">
+    <div class="col-sm-6 col-md-6">
       <div class="mb-4">
         <label class="form-label">Job</label>
         <input
@@ -185,7 +185,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <ButtonComponent @click="submitData" :btnName="'My Profile'" />
+      <ButtonComponent @click="submitData" :btnName="'Submit'" />
     </div>
   </ModalComponent>
 </template>
@@ -212,7 +212,7 @@ export default {
       firstName: ref(""),
       lastName: ref(""),
       userAge: ref(""),
-      userGender: "female",
+      userGender: "",
       userJob: ref(""),
       userFreeTime: ref(""),
       userLike: ref(""),
