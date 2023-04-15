@@ -229,6 +229,24 @@ export default {
       router,
     };
   },
+  watch: {
+    userdata: {
+      handler() {
+        this.username = this.userdata.username;
+        this.firstName = this.userdata.firstName;
+        this.lastName = this.userdata.lastName;
+        this.userAge = this.userdata.userAge;
+        this.userGender = this.userdata.userGender;
+        this.userJob = this.userdata.userJob;
+        this.userFreeTime = this.userdata.userFreeTime;
+        this.userLike = this.userdata.userLike;
+        this.userDontLike = this.userdata.userDontLike;
+        this.userAboutMe = this.userdata.userAboutMe;
+        this.profileImageUrl = this.userdata.profileImageUrl;
+      },
+      deep: true,
+    },
+  },
   methods: {
     async uploadFile(event) {
       try {
