@@ -39,6 +39,14 @@ const router = createRouter({
       component: UsersProfileView,
       props: true,
     },
+
+    {
+      path: "/postbox",
+      component: () => import("../views/PostboxView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });
 

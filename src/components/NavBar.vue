@@ -44,7 +44,15 @@
             >My Profile</RouterLink
           >
         </li>
-
+        <li class="nav-item">
+          <RouterLink
+            exact
+            to="/postbox"
+            class="nav-link"
+            active-class="active-link"
+            >Postbox</RouterLink
+          >
+        </li>
         <li class="nav-item" v-if="!isLoggedIn">
           <RouterLink
             to="/sign-in"
@@ -174,7 +182,7 @@ export default {
 
 .nav-decoration {
   height: 5px;
-  width: 500px;
+  width: 590px;
   background-color: var(--nav-decoration-color);
   position: absolute;
   bottom: 30px;
