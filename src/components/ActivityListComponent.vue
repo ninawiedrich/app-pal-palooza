@@ -1,9 +1,12 @@
 <template>
   <div class="activity-list activity-wrapper">
     <div
+      @click="$emit('showUserProfile', activity.user)"
+      data-bs-toggle="modal"
+      data-bs-target="#userProfileModal"
       v-for="activity in activities"
       :key="activity.id"
-      class="activity-item"
+      class="activity-item activity-liste-btn"
     >
       <div class="white-rectangle-activity-list">
         <p>{{ activity.location }}</p>
@@ -73,13 +76,11 @@ body {
   display: flex;
   justify-content: end;
 }
-
 .add-activity-btn-container {
   /*position: absolute;*/
   top: 30px;
   right: 40px;
 }
-
 /* Style for add activity button */
 .add-activity-btn {
   background-color: var(--button-color);
@@ -91,19 +92,25 @@ body {
   font-weight: bold;
 }
 
-.add-activity-btn:hover {
+.activity-liste-btn {
+  background-color: var(--button-color);
+  color: var(--second-backround-color);
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 16px;
+}
+.activity-liste-btn:hover {
   cursor: pointer;
   background-color: var(--button-hover-color);
 }
 /* Style for activity item*/
-
 .activity-wrapper {
   display: grid;
   gap: 40px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   padding-top: 40px;
 }
-
 .activity-item {
   border: 2px solid var(--background-color);
   border-radius: 10px;
@@ -113,10 +120,9 @@ body {
   color: #666;
   box-sizing: border-box;
   flex-basis: calc(20% - 20px);
-  max-width: 100%;
+  max-width: 300px;
   text-align: center;
 }
-
 .white-rectangle-activity-list {
   background-color: var(--styling-color);
   color: var(--button-color);

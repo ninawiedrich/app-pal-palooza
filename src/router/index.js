@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import UsersProfileView from "@/views/UsersProfileView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +31,13 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
+    },
+
+    {
+      path: "/usersProfile/:userId",
+      name: "UsersProfile",
+      component: UsersProfileView,
+      props: true,
     },
 
     {

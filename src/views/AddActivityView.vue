@@ -53,7 +53,7 @@
     <div class="mb-4">
       <label class="form-label">Art of activity</label>
       <select class="form-control custom-select" v-model="selectedGroup">
-        <option disabled value="">Please select your group</option>
+        <option value="">Please select your group</option>
         <option
           v-for="(group, index) in activityGroups"
           :key="index"

@@ -70,7 +70,7 @@
       <label class="form-label">Profile Image</label>
       <input type="file" @change="uploadFile" />
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-6">
       <div class="mb-4">
         <label class="form-label">Username</label>
         <input
@@ -114,9 +114,9 @@
         />
       </div>
     </div>
-    <div class="col-md-5">
+    <div>
       <div class="mb-4">
-        <div class="col-md-5">
+        <div class="col-sm-6 col-md-6">
           <div class="mb-4">
             <label class="form-label">Gender</label>
             <select class="form-control custom-select" v-model="userGender">
@@ -129,7 +129,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-md-4">
+    <div class="col-sm-6 col-md-6">
       <div class="mb-4">
         <label class="form-label">Job</label>
         <input
@@ -185,7 +185,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <ButtonComponent @click="submitData" :btnName="'My Profile'" />
+      <ButtonComponent @click="submitData" :btnName="'Submit'" />
     </div>
   </ModalComponent>
 </template>
@@ -199,7 +199,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import ButtonComponent from "@/components/ButtonComponent.vue";
-
 export default {
   components: { ModalComponent, ButtonComponent },
   name: "ProfileView",
@@ -213,7 +212,7 @@ export default {
       firstName: ref(""),
       lastName: ref(""),
       userAge: ref(""),
-      userGender: "female",
+      userGender: "",
       userJob: ref(""),
       userFreeTime: ref(""),
       userLike: ref(""),
@@ -226,10 +225,8 @@ export default {
     async uploadFile(event) {
       const file = event.target.files[0];
       if (!file) return;
-
       const storageRef = storageRef(storage, `profileImages/${this.user.uid}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
       uploadTask.on(
         "state_changed",
         (snapshot) => {},
@@ -285,11 +282,9 @@ export default {
   display: flex;
   justify-content: end;
 }
-
 .fixed-text {
   color: black;
 }
-
 .activity-wrapper {
   display: grid;
   gap: 40px;
@@ -298,7 +293,6 @@ export default {
   grid-template-columns: 1fr 2fr;
   padding-top: 40px;
 }
-
 .activity-item {
   grid-column: 2;
   border: 2px solid var(--background-color);
@@ -312,7 +306,6 @@ export default {
   max-width: 100%;
   text-align: left;
 }
-
 .activity-item-large {
   grid-row-end: span 2;
   grid-column: 1;
