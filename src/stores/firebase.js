@@ -25,4 +25,5 @@ getToken(messaging, {
     "BIdQpNVc_cWdol0oeixbZfWvnJmONOVF_tB-354aAaYpMzYKsbuaYFGA1zgAMXM8GRnVFb2akrynBq1RJYRkN_c",
 });
 
+export const storageRef = (storage, path) => ref(storage, path);
 export { auth, db, storage, messaging };

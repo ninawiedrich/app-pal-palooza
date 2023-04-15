@@ -9,7 +9,10 @@
         <div class="activity-grid activity-wrapper">
           <div class="activity-item activity-item-large">
             <img
-              :src="'https://i.pinimg.com/736x/e4/62/bd/e462bdbebd8859f0ade1bbea7f64643f--guy-fawkes-aussi.jpg'"
+              :src="
+                userdata.profileImageUrl ||
+                'https://i.pinimg.com/736x/e4/62/bd/e462bdbebd8859f0ade1bbea7f64643f--guy-fawkes-aussi.jpg'
+              "
               alt="User profile"
               style="height: 300px"
             />
@@ -191,14 +194,19 @@
 </template>
 
 <script>
+// Import necessary components and Firebase libraries
 import ModalComponent from "@/components/ModalComponent.vue";
-import { db, storage, storageRef } from "@/stores/firebase.js";
+import ButtonComponent from "@/components/ButtonComponent.vue";
+import { db, storage } from "@/stores/firebase.js";
 import { getAuth } from "firebase/auth";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { ref } from "vue";
+import { ref as vueRef } from "vue";
 import { useRouter } from "vue-router";
-import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ButtonComponent from "@/components/ButtonComponent.vue";
+import {
+  ref as storageRef,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 export default {
   components: { ModalComponent, ButtonComponent },
   name: "ProfileView",
@@ -208,40 +216,52 @@ export default {
       userdata: [],
       user: "",
       profileImageUrl: "",
-      username: ref(""),
-      firstName: ref(""),
-      lastName: ref(""),
-      userAge: ref(""),
+      username: vueRef(""),
+      firstName: vueRef(""),
+      lastName: vueRef(""),
+      userAge: vueRef(""),
       userGender: "",
-      userJob: ref(""),
-      userFreeTime: ref(""),
-      userLike: ref(""),
-      userDontLike: ref(""),
-      userAboutMe: ref(""),
+      userJob: vueRef(""),
+      userFreeTime: vueRef(""),
+      userLike: vueRef(""),
+      userDontLike: vueRef(""),
+      userAboutMe: vueRef(""),
       router,
     };
   },
   methods: {
     async uploadFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const storageRef = storageRef(storage, `profileImages/${this.user.uid}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          console.log("Error uploading file:", error);
-        },
-        async () => {
-          this.profileImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-          this.submitData();
-        }
-      );
+      try {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const storageReference = storageRef(storage, `images/${this.user.uid}`);
+        const uploadTask = uploadBytesResumable(storageReference, file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            console.log("Error uploading file:", error);
+          },
+          async () => {
+            this.profileImageUrl = await getDownloadURL(
+              uploadTask.snapshot.ref
+            );
+            this.submitData();
+          }
+        );
+      } catch (error) {
+        console.log("Error uploading file:", error);
+      }
     },
+
     async submitData() {
+      // Get the current user and create a reference to their Firestore doc
       this.user = getAuth().currentUser;
       const docRef = doc(db, "users", this.user.uid);
+
+      // Update the user's doc with the new data including the profile image URL
       await updateDoc(docRef, {
         username: this.username,
         firstName: this.firstName,
@@ -255,13 +275,17 @@ export default {
         userAboutMe: this.userAboutMe,
         profileImageUrl: this.profileImageUrl,
       });
-      console.log("Name change");
+
+      // Navigate to the updated profile page
       this.router.go();
     },
+
     async getData() {
+      // Get the current user and create a reference to their Firestore doc
       this.user = getAuth().currentUser;
-      console.log(this.user.uid);
       const docRef = doc(db, "users", this.user.uid);
+
+      // Get the user data from the doc and store it in component data
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
@@ -272,6 +296,7 @@ export default {
     },
   },
   mounted() {
+    // Get the current user's data on component mount
     this.getData();
   },
 };
