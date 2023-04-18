@@ -127,7 +127,7 @@ export default {
       const q = query(collection(db, "users"), where("id", "==", authUser.uid));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        this.user = doc.data();
+        this.user = getAuth().currentUser;
       });
       console.log(this.user);
 
@@ -138,12 +138,11 @@ export default {
         time: this.time,
         activity: this.activity,
         activityGroup: this.selectedGroup,
-        userId: this.user.id,
+        userId: this.user.uid,
       });
       console.log("activity created: ", docRef.id);
       this.getAddData();
     },
-
     async getAddData() {
       const userId = getAuth().currentUser.uid;
       const q2 = query(
