@@ -25,5 +25,7 @@ getToken(messaging, {
     "BIdQpNVc_cWdol0oeixbZfWvnJmONOVF_tB-354aAaYpMzYKsbuaYFGA1zgAMXM8GRnVFb2akrynBq1RJYRkN_c",
 });
 
+console.log("db:", db); // add this line to check if db is being correctly initialized
+
 export const storageRef = (storage, path) => ref(storage, path);
 export { auth, db, storage, messaging };
