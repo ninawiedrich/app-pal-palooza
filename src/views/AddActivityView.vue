@@ -16,7 +16,7 @@
 
   <!-- Modal -->
   <ModalComponent :title="'Add Activity'" class="modal-style">
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-4">
       <div class="mb-4">
         <label class="form-label">Location</label>
         <input
@@ -27,7 +27,7 @@
         />
       </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-4">
       <div class="mb-4">
         <label class="form-label">Date</label>
         <input
@@ -38,15 +38,24 @@
         />
       </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-4">
       <div class="mb-4">
         <label class="form-label">Time</label>
-        <input
-          class="form-control"
-          type="time"
-          placeholder="Time"
-          v-model="time"
-        />
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="time"
+            placeholder="Time"
+            v-model="time"
+          />
+          <button
+            class="btn btn-outline-secondary btn-costum"
+            type="button"
+            @click="resetTime"
+          >
+            Reset
+          </button>
+        </div>
       </div>
     </div>
 
@@ -120,6 +129,11 @@ export default {
     };
   },
   methods: {
+    resetTime() {
+      this.time = ""; // Set the time to an empty string
+      const timeInput = document.querySelector('input[type="time"]');
+      timeInput.value = ""; // Reset the input field value
+    },
     async submitAddData() {
       console.log("submit was clicked");
       const authUser = getAuth().currentUser;
