@@ -187,3 +187,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.btn-costum {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  height: 47px;
+}
+</style>
