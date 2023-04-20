@@ -93,16 +93,10 @@ body {
 }
 
 .activity-liste-btn {
-  background-color: var(--button-color);
   color: var(--second-backround-color);
-  border: 2px solid var(--border-color);
   border-radius: 5px;
   padding: 5px 15px;
   font-size: 16px;
-}
-.activity-liste-btn:hover {
-  cursor: pointer;
-  background-color: var(--button-hover-color);
 }
 /* Style for activity item*/
 .activity-wrapper {
