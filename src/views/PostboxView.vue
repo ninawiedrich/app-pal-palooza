@@ -1,55 +1,60 @@
 <template>
-  <div class="app">
-    <div class="recipient-list">
-      <ul>
-        <li
-          v-for="(recipient, index) in filteredRecipients"
-          :key="index"
-          :class="{ active: selectedRecipient === recipient.uid }"
-          @click="selectRecipient(recipient)"
-        >
-          <img :src="recipient.profileImageUrl" class="recipient-avatar" />
-          <div>
-            <h3 class="recipient-name">
-              {{ recipient.firstName }} {{ recipient.lastName }}
-            </h3>
-            <p class="recipient-last-msg">{{ recipient.lastMessage }}</p>
+  <div class="back-color">
+    <div class="center-rectangle">
+      <div class="app">
+        <div class="recipient-list">
+          <ul>
+            <li
+              v-for="(recipient, index) in filteredRecipients"
+              :key="index"
+              :class="{ active: selectedRecipient === recipient.uid }"
+              @click="selectRecipient(recipient)"
+            >
+              <img :src="recipient.profileImageUrl" class="recipient-avatar" />
+              <div>
+                <h3 class="recipient-name">
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </h3>
+                <p class="recipient-last-msg">{{ recipient.lastMessage }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="msg-container" v-if="selectedRecipient">
+          <div class="msg-header">
+            <img
+              :src="selectedRecipient.profileImageUrl"
+              class="recipient-avatar"
+            />
+            <h2 class="recipient-name">
+              {{ selectedRecipient.firstName }} {{ selectedRecipient.lastName }}
+            </h2>
           </div>
-        </li>
-      </ul>
-    </div>
-    <div class="msg-container" v-if="selectedRecipient">
-      <div class="msg-header">
-        <img
-          :src="selectedRecipient.profileImageUrl"
-          class="recipient-avatar"
-        />
-        <h2 class="recipient-name">
-          {{ selectedRecipient.firstName }} {{ selectedRecipient.lastName }}
-        </h2>
-      </div>
-      <div class="msg-list" ref="msgList">
-        <ul>
-          <li
-            v-for="(msg, index) in messages"
-            :key="index"
-            :class="{
-              sent: msg.senderId === user.uid,
-              received: msg.senderId !== user.uid,
-            }"
-          >
-            <div class="msg-content">{{ msg.text }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="msg-input-container">
-        <input
-          type="text"
-          class="msg-input"
-          v-model="newMessage"
-          placeholder="Type your message..."
-        />
-        <button class="msg-send-btn" @click="sendMessage">Send</button>
+          <div class="msg-list" ref="msgList">
+            <ul>
+              <li
+                v-for="(msg, index) in messages"
+                :key="index"
+                :class="{
+                  sent: msg.senderId === user.uid,
+                  received: msg.senderId !== user.uid,
+                }"
+              >
+                <div class="msg-content">{{ msg.text }}</div>
+              </li>
+            </ul>
+          </div>
+          <div class="msg-input-container">
+            <input
+              type="text"
+              class="msg-input"
+              v-model="newMessage"
+              @keyup.enter="sendMessage"
+              placeholder="Type your message..."
+            />
+            <button class="msg-send-btn" @click="sendMessage">Send</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -190,42 +195,29 @@ export default {
   box-sizing: border-box;
 }
 
+.back-color {
+  padding: 40px;
+}
+
+.center-rectangle {
+  background: linear-gradient(var(--background-color), var(--styling-color));
+  padding: 40px;
+  margin-top: 10px;
+  border-radius: 40px;
+  max-width: 100%;
+}
+
 .app {
   height: 100vh;
   display: flex;
-  flex-direction: column;
-}
-
-.chat-container {
-  display: flex;
-  flex: 1;
-  height: 100%;
-}
-
-.user-container {
-  width: calc(250px * 0.25);
-  background-color: #f7f7f7;
-  border-right: 1px solid #dcdcdc;
-  width: 25%; /* Adjust this value to your desired width */
-  max-width: 62.5px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  border-bottom: 1px solid #dcdcdc;
-}
-
-.user-name {
-  margin-left: 10px;
-  font-size: 1.2rem;
+  flex-direction: row;
 }
 
 .recipient-list {
-  flex: 0.25;
-  overflow-y: auto;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .recipient-avatar {
@@ -243,7 +235,7 @@ export default {
 .recipient-last-msg {
   font-size: 0.9rem;
   margin-bottom: 10px;
-  color: black;
+  color: var(--text-color);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -287,6 +279,7 @@ export default {
 .recipient-name {
   margin-left: 10px;
   font-size: 1.2rem;
+  color: var(--text-color);
 }
 
 .msg-list {
@@ -308,17 +301,18 @@ export default {
 .msg-content {
   padding: 10px;
   border-radius: 5px;
+  color: var(--text-color);
 }
 
 .msg-content.sent {
   background-color: #007bff;
-  color: black;
+  color: var(--text-color);
   align-self: flex-end;
 }
 
 .msg-content.received {
   background-color: #f7f7f7;
-  color: #333;
+  color: var(--text-color);
   align-self: flex-start;
 }
 
@@ -350,11 +344,5 @@ export default {
 
 .msg-send-btn:hover {
   background-color: #006aec;
-}
-
-.user-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
 }
 </style>
