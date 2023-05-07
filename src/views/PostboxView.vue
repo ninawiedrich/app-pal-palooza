@@ -31,18 +31,27 @@
             </h2>
           </div>
           <div class="msg-list" ref="msgList">
-            <ul>
-              <li
-                v-for="(msg, index) in messages"
-                :key="index"
-                :class="{
-                  sent: msg.senderId === user.uid,
-                  received: msg.senderId !== user.uid,
-                }"
-              >
-                <div class="msg-content">{{ msg.text }}</div>
-              </li>
-            </ul>
+            <div
+              v-for="(msg, index) in filteredMessages"
+              :key="`message-${index}`"
+              :class="{
+                'msg-sent': msg.senderId === user.uid,
+                'msg-received': msg.senderId !== user.uid,
+              }"
+            >
+              <template v-if="msg.senderId === user.uid">
+                <div class="msg-wrapper">
+                  <div class="msg-content">{{ msg.text }}</div>
+                  <span class="msg-time">{{ formatTime(msg.sentAt) }}</span>
+                </div>
+              </template>
+              <template v-else>
+                <div class="msg-wrapper">
+                  <div class="msg-content">{{ msg.text }}</div>
+                  <span class="msg-time">{{ formatTime(msg.sentAt) }}</span>
+                </div>
+              </template>
+            </div>
           </div>
           <div class="msg-input-container">
             <input
@@ -90,6 +99,23 @@ export default {
         (recipient) => recipient.uid !== this.user.uid
       );
     },
+    filteredMessages() {
+      const sentMessages = this.messages.filter(
+        (msg) =>
+          msg.senderId === this.user.uid &&
+          msg.recipientId === this.selectedRecipient.uid
+      );
+
+      const receivedMessages = this.messages.filter(
+        (msg) =>
+          msg.senderId === this.selectedRecipient.uid &&
+          msg.recipientId === this.user.uid
+      );
+
+      return [...sentMessages, ...receivedMessages].sort(
+        (a, b) => a.sentAt - b.sentAt
+      );
+    },
   },
   methods: {
     async fetchRecipients() {
@@ -117,15 +143,6 @@ export default {
       }
     },
     async fetchMessages() {
-      const mergeMessages = (newMessages) => {
-        this.messages = [...this.messages, ...newMessages].sort(
-          (a, b) => a.sentAt - b.sentAt
-        );
-        this.$nextTick(() => {
-          this.scrollToBottom();
-        });
-      };
-
       const sentMessagesQuery = query(
         collection(db, "messages"),
         where("senderId", "==", this.user.uid),
@@ -147,15 +164,12 @@ export default {
         querySnapshot.forEach((doc) => {
           messages.push(doc.data());
         });
-        mergeMessages(messages);
-      });
-
-      onSnapshot(receivedMessagesQuery, (querySnapshot) => {
-        const messages = [];
-        querySnapshot.forEach((doc) => {
-          messages.push(doc.data());
+        onSnapshot(receivedMessagesQuery, (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            messages.push(doc.data());
+          });
+          this.messages = messages.sort((a, b) => a.sentAt - b.sentAt);
         });
-        mergeMessages(messages);
       });
     },
     async sendMessage() {
@@ -180,6 +194,19 @@ export default {
     selectRecipient(recipient) {
       this.selectedRecipient = recipient;
       this.fetchMessages();
+    },
+
+    formatTime(timestamp) {
+      const date = new Date(timestamp);
+      const day = date.getDate().toString().padStart(2, "0");
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, "0");
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    },
+    isReceivedMessage(msg) {
+      return msg.senderId === this.selectedRecipient.uid;
     },
   },
   created() {
@@ -235,10 +262,12 @@ export default {
 .recipient-last-msg {
   font-size: 0.9rem;
   margin-bottom: 10px;
-  color: var(--text-color);
+  color: rgba(165, 42, 42, 0.6);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  max-width: 200px;
+  display: block;
 }
 
 .recipient-list ul {
@@ -286,34 +315,12 @@ export default {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-}
-
-.msg-list ul {
-  list-style-type: none;
-}
-
-.msg-list li {
-  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
 
-.msg-content {
-  padding: 10px;
-  border-radius: 5px;
-  color: var(--text-color);
-}
-
-.msg-content.sent {
-  background-color: #007bff;
-  color: var(--text-color);
-  align-self: flex-end;
-}
-
-.msg-content.received {
-  background-color: #f7f7f7;
-  color: var(--text-color);
-  align-self: flex-start;
+.msg-list ul {
+  list-style-type: none;
 }
 
 .msg-input-container {
@@ -335,14 +342,66 @@ export default {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  background-color: #007bff;
+  background-color: var(--background-color);
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-weight: bold;
+  margin-right: 23px;
 }
 
 .msg-send-btn:hover {
   background-color: #006aec;
+}
+
+.msg-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.msg-sent {
+  margin-left: auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 8px 8px 0px 8px;
+  max-width: 80%;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.msg-received {
+  margin-bottom: 20px;
+  background-color: #f1f0f0;
+  color: var(--text-color);
+  border-radius: 8px 8px 8px 0px;
+  max-width: 80%;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.msg-content {
+  padding: 10px;
+  word-wrap: break-word;
+}
+
+.msg-time {
+  font-size: 0.7rem;
+  color: grey;
+  margin-left: 10px;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+.sent .msg-time {
+  align-self: flex-end;
+}
+
+.received .msg-time {
+  align-self: flex-start;
 }
 </style>
