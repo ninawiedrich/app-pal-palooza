@@ -12,7 +12,7 @@
         <p>{{ activity.location }}</p>
       </div>
       <template v-if="activity.user">
-        <div class="white-rectangle-activity-list">
+        <div class="white-rectangle-activity-list list-container">
           <p>{{ activity.user.username }}</p>
         </div>
         <div class="white-rectangle-activity-list">
@@ -122,5 +122,14 @@ body {
   color: var(--button-color);
   border-radius: 2px;
   margin: 2px;
+}
+.list-container {
+  color: blue;
+  text-decoration-line: underline;
+}
+.list-container:hover {
+  cursor: pointer;
+  background-color: var(--button-hover-color);
+  transition: background-color 0.2s ease;
 }
 </style>

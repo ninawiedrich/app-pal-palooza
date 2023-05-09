@@ -256,8 +256,4 @@ export default {
   padding: 0.25rem 0.5rem;
   height: 47px;
 }
-.list-container:hover {
-  cursor: pointer;
-  background-color: var(--button-hover-color);
-}
 </style>
