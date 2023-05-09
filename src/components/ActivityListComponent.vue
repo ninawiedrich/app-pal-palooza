@@ -123,10 +123,13 @@ body {
   border-radius: 2px;
   margin: 2px;
 }
+.list-container {
+  color: blue;
+  text-decoration-line: underline;
+}
 .list-container:hover {
   cursor: pointer;
   background-color: var(--button-hover-color);
   transition: background-color 0.2s ease;
-  text-decoration-line: underline;
 }
 </style>
