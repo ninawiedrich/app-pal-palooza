@@ -82,6 +82,7 @@ import {
   onSnapshot,
   doc,
 } from "firebase/firestore";
+import store from "@/stores/MessageStore.js";
 
 export default {
   data() {
@@ -136,7 +137,6 @@ export default {
       if (docSnap.exists()) {
         this.selectedRecipient = docSnap.data();
         this.selectedRecipient.uid = docSnap.id;
-        // fetch messages for this recipient
         this.fetchMessages();
       } else {
         console.error("Recipient not found in database");
@@ -169,6 +169,20 @@ export default {
             messages.push(doc.data());
           });
           this.messages = messages.sort((a, b) => a.sentAt - b.sentAt);
+          console.log("Fetched messages:", this.messages);
+
+          if (
+            messages.length > 0 &&
+            messages[messages.length - 1].senderId !== this.user.uid &&
+            messages[messages.length - 1].recipientId ===
+              this.selectedRecipient.uid
+          ) {
+            store.newMessageReceived = true;
+            console.log(
+              "New message received, setting store.newMessageReceived to",
+              store.newMessageReceived
+            );
+          }
         });
       });
     },
@@ -185,6 +199,7 @@ export default {
       await addDoc(collection(db, "messages"), newMsg);
       this.selectedRecipient.lastMessage = this.newMessage;
       this.newMessage = "";
+      store.newMessageReceived = false;
     },
     scrollToBottom() {
       if (this.$refs.msgList) {

@@ -50,8 +50,12 @@
             to="/postbox"
             class="nav-link"
             active-class="active-link"
-            >Postbox</RouterLink
           >
+            Postbox
+            <span v-if="newMessageReceived" class="notification-badge"
+              >New</span
+            >
+          </RouterLink>
         </li>
         <li class="nav-item" v-if="!isLoggedIn">
           <RouterLink
@@ -78,8 +82,10 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import store from "@/stores/MessageStore.js";
+import { ref, toRefs } from "vue";
 import { getAuth, signOut } from "firebase/auth";
+import { watch } from "vue";
 
 export default {
   name: "NavBar",
@@ -105,7 +111,23 @@ export default {
         });
     };
 
-    return { isLoggedIn, handleSignOut };
+    const { newMessageReceived } = toRefs(store);
+
+    // Add watch function to track changes to newMessageReceived
+    watch(newMessageReceived, (newValue, oldValue) => {
+      console.log(
+        "store.newMessageReceived changed from",
+        oldValue,
+        "to",
+        newValue
+      );
+    });
+
+    return {
+      isLoggedIn,
+      handleSignOut,
+      newMessageReceived,
+    };
   },
 };
 </script>
@@ -207,5 +229,18 @@ export default {
 }
 .btn-outline-success {
   border: 2px solid var(--border-color);
+}
+
+.new-message-received:before {
+  content: "!";
+}
+
+.notification-badge {
+  /* style the badge as desired */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  margin-left: 10px;
 }
 </style>
