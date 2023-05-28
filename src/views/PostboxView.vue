@@ -7,7 +7,12 @@
             <li
               v-for="(recipient, index) in filteredRecipients"
               :key="index"
-              :class="{ active: selectedRecipient === recipient.uid }"
+              :class="{
+                active: selectedRecipient === recipient.uid,
+                'unread-msg':
+                  !isLastMessageByUser(recipient) &&
+                  recipient.uid !== selectedRecipient?.uid,
+              }"
               @click="selectRecipient(recipient)"
             >
               <img :src="recipient.profileImageUrl" class="recipient-avatar" />
@@ -15,7 +20,15 @@
                 <h3 class="recipient-name">
                   {{ recipient.firstName }} {{ recipient.lastName }}
                 </h3>
-                <p class="recipient-last-msg">{{ recipient.lastMessage }}</p>
+                <p
+                  class="recipient-last-msg"
+                  v-if="
+                    !isLastMessageByUser(recipient) &&
+                    recipient.uid !== selectedRecipient?.uid
+                  "
+                >
+                  {{ lastReceivedMessage(recipient) }}
+                </p>
               </div>
             </li>
           </ul>
@@ -74,11 +87,12 @@ import { db, auth } from "@/stores/firebase.js";
 import {
   collection,
   addDoc,
+  getDocs,
   getDoc,
   query,
   where,
   orderBy,
-  limit,
+  limitToLast,
   onSnapshot,
   doc,
 } from "firebase/firestore";
@@ -96,10 +110,14 @@ export default {
   computed: {
     filteredRecipients() {
       return this.recipients.filter(
-        (recipient) => recipient.uid !== this.user.uid
+        (recipient) =>
+          recipient.uid !== this.user.uid &&
+          recipient.uid !== this.selectedRecipient?.uid
       );
     },
     filteredMessages() {
+      if (!this.selectedRecipient) return [];
+
       const sentMessages = this.messages.filter(
         (msg) =>
           msg.senderId === this.user.uid &&
@@ -116,104 +134,98 @@ export default {
         (a, b) => a.sentAt - b.sentAt
       );
     },
+    lastReceivedMessage() {
+      return function (recipient) {
+        const lastReceivedMessage = this.messages
+          .filter(
+            (msg) =>
+              msg.senderId === recipient.uid &&
+              msg.recipientId === this.user.uid
+          )
+          .sort((a, b) => b.sentAt - a.sentAt)[0];
+
+        return lastReceivedMessage ? lastReceivedMessage.text : "";
+      };
+    },
   },
   methods: {
-    async fetchRecipients() {
-      const q = query(collection(db, "users"));
-      onSnapshot(q, (querySnapshot) => {
-        const recipients = [];
-        querySnapshot.forEach((doc) => {
-          const recipient = doc.data();
-          recipient.uid = doc.id;
-          recipients.push(recipient);
-        });
-        this.recipients = recipients;
-      });
-    },
-    async fetchRecipient(recipientId) {
-      const docRef = doc(db, "users", recipientId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        this.selectedRecipient = docSnap.data();
-        this.selectedRecipient.uid = docSnap.id;
-        // fetch messages for this recipient
-        this.fetchMessages();
-      } else {
-        console.error("Recipient not found in database");
-      }
-    },
-    async fetchMessages() {
-      const sentMessagesQuery = query(
-        collection(db, "messages"),
-        where("senderId", "==", this.user.uid),
-        where("recipientId", "==", this.selectedRecipient.uid),
-        orderBy("sentAt", "asc"),
-        limit(50)
-      );
-
-      const receivedMessagesQuery = query(
-        collection(db, "messages"),
-        where("senderId", "==", this.selectedRecipient.uid),
-        where("recipientId", "==", this.user.uid),
-        orderBy("sentAt", "asc"),
-        limit(50)
-      );
-
-      onSnapshot(sentMessagesQuery, (querySnapshot) => {
-        const messages = [];
-        querySnapshot.forEach((doc) => {
-          messages.push(doc.data());
-        });
-        onSnapshot(receivedMessagesQuery, (querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            messages.push(doc.data());
-          });
-          this.messages = messages.sort((a, b) => a.sentAt - b.sentAt);
-        });
-      });
-    },
-    async sendMessage() {
-      if (!this.newMessage) {
-        return;
-      }
-      const newMsg = {
-        text: this.newMessage,
-        senderId: this.user.uid,
-        recipientId: this.selectedRecipient.uid,
-        sentAt: new Date().getTime(),
-      };
-      await addDoc(collection(db, "messages"), newMsg);
-      this.selectedRecipient.lastMessage = this.newMessage;
-      this.newMessage = "";
-    },
-    scrollToBottom() {
-      if (this.$refs.msgList) {
-        this.$refs.msgList.scrollTop = this.$refs.msgList.scrollHeight;
-      }
-    },
     selectRecipient(recipient) {
       this.selectedRecipient = recipient;
       this.fetchMessages();
     },
+    async fetchRecipients() {
+      const q = query(collection(db, "users"));
+      onSnapshot(q, (querySnapshot) => {
+        const recipients = [];
+        for (const doc of querySnapshot.docs) {
+          const recipient = doc.data();
+          recipient.uid = doc.id;
+          recipients.push(recipient);
+        }
+        this.recipients = recipients;
+      });
+    },
+    async fetchMessages() {
+      const q = query(
+        collection(db, "messages"),
+        orderBy("sentAt"),
+        limitToLast(50)
+      );
+      onSnapshot(q, (querySnapshot) => {
+        const messages = [];
+        for (const doc of querySnapshot.docs) {
+          const message = doc.data();
+          message.uid = doc.id;
+          messages.push(message);
+        }
+        this.messages = messages;
+      });
+    },
+    async sendMessage() {
+      if (this.newMessage.trim() === "" || !this.selectedRecipient) return;
+
+      const message = {
+        text: this.newMessage,
+        senderId: this.user.uid,
+        recipientId: this.selectedRecipient.uid,
+        sentAt: Date.now(),
+      };
+
+      try {
+        await addDoc(collection(db, "messages"), message);
+        this.newMessage = "";
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    },
 
     formatTime(timestamp) {
       const date = new Date(timestamp);
-      const day = date.getDate().toString().padStart(2, "0");
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const year = date.getFullYear();
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
-      return `${day}/${month}/${year} ${hours}:${minutes}`;
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours}:${minutes}`;
     },
-    isReceivedMessage(msg) {
-      return msg.senderId === this.selectedRecipient.uid;
+    isLastMessageByUser(recipient) {
+      const lastReceivedMessage = this.messages
+        .filter(
+          (msg) =>
+            msg.senderId === recipient.uid && msg.recipientId === this.user.uid
+        )
+        .sort((a, b) => b.sentAt - a.sentAt)[0];
+
+      return !lastReceivedMessage;
     },
   },
-  created() {
+  async mounted() {
     this.fetchRecipients();
+    this.fetchMessages();
   },
 };
 </script>
+
+<style scoped>
+/* Styles remain unchanged */
+</style>
 
 <style scoped>
 * {
@@ -403,5 +415,9 @@ export default {
 
 .received .msg-time {
   align-self: flex-start;
+}
+
+.recipient-list li.unread-msg {
+  border: 3px solid yellow;
 }
 </style>
