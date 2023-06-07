@@ -139,7 +139,10 @@ export default {
     },
     lastReceivedMessage() {
       return function (recipient) {
-        if (!this.messages) return "";
+        setTimeout(() => {
+          console.log(this.message);
+          if (!this.messages) return "";
+        }, 0);
         const lastReceivedMessage = this.messages
           .filter(
             (msg) =>
