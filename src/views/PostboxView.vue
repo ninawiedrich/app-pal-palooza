@@ -454,4 +454,8 @@ export default {
 .recipient-list li.unread-msg {
   border: 3px solid yellow;
 }
+
+.recipient-last-msg {
+  color: #474747;
+}
 </style>
