@@ -13,7 +13,7 @@
                   !isLastMessageByUser(recipient) &&
                   recipient.uid !== selectedRecipient?.uid,
               }"
-              @click="selectRecipient(recipient)"
+              @click="handleClick(recipient)"
             >
               <img :src="recipient.profileImageUrl" class="recipient-avatar" />
               <div>
@@ -24,8 +24,10 @@
                   class="recipient-last-msg"
                   v-if="
                     !isLastMessageByUser(recipient) &&
-                    recipient.uid !== selectedRecipient?.uid
+                    recipient.uid !== selectedRecipient?.uid &&
+                    !readMessageIds.includes(lastReceivedMessage(recipient).uid)
                   "
+                  @click="handleClick(recipient)"
                 >
                   {{ lastReceivedMessage(recipient) }}
                 </p>
@@ -105,6 +107,7 @@ export default {
       selectedRecipient: null,
       messages: [],
       newMessage: "",
+      readMessageIds: JSON.parse(localStorage.getItem("readMessageIds")) || [],
     };
   },
   computed: {
@@ -149,6 +152,24 @@ export default {
     },
   },
   methods: {
+    handleClick(recipient) {
+      this.selectRecipient(recipient);
+      const lastReceivedMessage = this.messages
+        .filter(
+          (msg) =>
+            msg.senderId === recipient.uid && msg.recipientId === this.user.uid
+        )
+        .sort((a, b) => b.sentAt - a.sentAt)[0];
+
+      if (lastReceivedMessage) {
+        this.readMessageIds.push(lastReceivedMessage.uid);
+        localStorage.setItem(
+          "readMessageIds",
+          JSON.stringify(this.readMessageIds)
+        );
+      }
+    },
+
     selectRecipient(recipient) {
       this.selectedRecipient = recipient;
       this.fetchMessages();
@@ -198,12 +219,19 @@ export default {
         console.error("Error sending message:", error);
       }
     },
-
     formatTime(timestamp) {
-      const date = new Date(timestamp);
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      return `${hours}:${minutes}`;
+      const dateObj = new Date(timestamp);
+      const date = dateObj.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+      const time = dateObj.toLocaleTimeString(undefined, {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      return `${date} at ${time}`;
     },
     isLastMessageByUser(recipient) {
       const lastReceivedMessage = this.messages
@@ -213,12 +241,17 @@ export default {
         )
         .sort((a, b) => b.sentAt - a.sentAt)[0];
 
-      return !lastReceivedMessage;
+      return (
+        !lastReceivedMessage ||
+        this.readMessageIds.includes(lastReceivedMessage.uid)
+      );
     },
   },
   async mounted() {
     this.fetchRecipients();
     this.fetchMessages();
+    this.readMessageIds =
+      JSON.parse(localStorage.getItem("readMessageIds")) || [];
   },
 };
 </script>
