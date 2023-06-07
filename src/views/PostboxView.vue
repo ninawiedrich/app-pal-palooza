@@ -138,8 +138,8 @@ export default {
       );
     },
     lastReceivedMessage() {
-      if (!this.messages) return () => "";
       return function (recipient) {
+        if (!this.messages) return "";
         const lastReceivedMessage = this.messages
           .filter(
             (msg) =>
