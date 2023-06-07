@@ -25,11 +25,11 @@
                   v-if="
                     !isLastMessageByUser(recipient) &&
                     recipient?.uid !== selectedRecipient?.uid &&
-                    !readMessageIds.includes(lastReceivedMessage.uid)
+                    !readMessageIds.includes(lastReceivedMessage(recipient).uid)
                   "
                   @click="handleClick(recipient)"
                 >
-                  {{ lastReceivedMessage }}
+                  {{ lastReceivedMessage(recipient) }}
                 </p>
               </div>
             </li>
@@ -138,7 +138,7 @@ export default {
       );
     },
     lastReceivedMessage() {
-      if (!this.messages) return null;
+      if (!this.messages) return () => "";
       return function (recipient) {
         const lastReceivedMessage = this.messages
           .filter(
