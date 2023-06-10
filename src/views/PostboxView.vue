@@ -112,6 +112,7 @@ export default {
   },
   computed: {
     filteredRecipients() {
+      console.log("Checking this.recipients:", this.recipients);
       return this.recipients.filter(
         (recipient) =>
           recipient.uid !== this.user.uid &&
@@ -119,6 +120,11 @@ export default {
       );
     },
     filteredMessages() {
+      console.log(
+        "Checking this.messages and this.selectedRecipient:",
+        this.messages,
+        this.selectedRecipient
+      );
       if (!this.selectedRecipient) return [];
 
       const sentMessages = this.messages.filter(
@@ -139,6 +145,7 @@ export default {
     },
     lastReceivedMessage() {
       return function (recipient) {
+        console.log("Checking this.messages:", this.messages);
         setTimeout(() => {
           console.log(this.message);
           if (!this.messages) return "";
