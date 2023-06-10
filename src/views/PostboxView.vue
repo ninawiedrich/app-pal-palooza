@@ -125,7 +125,7 @@ export default {
         this.messages,
         this.selectedRecipient
       );
-      if (!this.selectedRecipient) return [];
+      if (!this.messages || !this.selectedRecipient) return [];
 
       const sentMessages = this.messages.filter(
         (msg) =>
@@ -146,10 +146,7 @@ export default {
     lastReceivedMessage() {
       return function (recipient) {
         console.log("Checking this.messages:", this.messages);
-        setTimeout(() => {
-          console.log(this.message);
-          if (!this.messages) return "";
-        }, 0);
+        if (!this.messages) return "";
         const lastReceivedMessage = this.messages
           .filter(
             (msg) =>
