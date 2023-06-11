@@ -229,6 +229,18 @@ export default {
       });
       return `${date} at ${time}`;
     },
+    lastReceivedMessage(recipient) {
+      console.log("Checking this.messages:", this.messages);
+      if (!this.messages || !this.messages.length) return "";
+      const lastReceivedMessage = this.messages
+        .filter(
+          (msg) =>
+            msg.senderId === recipient.uid && msg.recipientId === this.user.uid
+        )
+        .sort((a, b) => b.sentAt - a.sentAt)[0];
+
+      return lastReceivedMessage ? lastReceivedMessage.text : "";
+    },
     isLastMessageByUser(recipient) {
       const lastReceivedMessage = this.messages
         .filter(
