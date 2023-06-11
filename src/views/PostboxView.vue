@@ -229,7 +229,6 @@ export default {
       });
       return `${date} at ${time}`;
     },
-
     lastReceivedMessage(recipient) {
       console.log("Checking this.messages:", this.messages);
       if (!this.messages || !this.messages.length) return "";
