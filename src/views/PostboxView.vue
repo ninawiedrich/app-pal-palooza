@@ -466,6 +466,6 @@ export default {
 }
 
 .recipient-last-msg {
-  color: #474747;
+  color: blue;
 }
 </style>
