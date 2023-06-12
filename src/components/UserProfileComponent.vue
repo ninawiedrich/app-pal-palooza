@@ -25,6 +25,14 @@
         <div class="modal-body">
           <div v-if="user">
             <h1>{{ user.username }}'s Profile</h1>
+            <img
+              :src="
+                user.profileImageUrl ||
+                'https://i.pinimg.com/736x/e4/62/bd/e462bdbebd8859f0ade1bbea7f64643f--guy-fawkes-aussi.jpg'
+              "
+              alt="User profile"
+              style="height: 200px"
+            />
             <p><strong>First name: </strong> {{ user.firstName }}</p>
             <p><strong>Last name: </strong> {{ user.lastName }}</p>
             <p><strong>Age: </strong> {{ user.userAge }}</p>
