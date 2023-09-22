@@ -28,11 +28,12 @@ body {
 
 html {
   --text-color: brown;
-  --background-color: #5bc0de;
-  --second-backround-color: yellow;
+  --background-color: #fdf5df;
+  --second-backround-color: #5ebec4;
   --styling-color: white;
-  --button-color: #a75f4a;
-  --border-color: #ff9900;
+  --button-color: rgb(207, 3, 92);
+  --button-text-color: #fdf5df;
+  --border-color: rgb(207, 3, 92);
   --button-hover-color: #ace0ef;
   --nav-decoration-color: navy;
 }

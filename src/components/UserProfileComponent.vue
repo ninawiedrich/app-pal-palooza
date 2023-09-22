@@ -73,8 +73,8 @@ export default {
 }
 
 .modal-style .modal-header {
-  background-color: var(--background-color);
-  color: var(--second-backround-color);
+  background-color: var(--second-backround-color);
+  color: var(--button-text-color);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -86,7 +86,7 @@ export default {
 .modal-style .form-control {
   border-radius: 5px;
   border: 2px solid var(--background-color);
-  background-color: var(--second-backround-color);
+  background-color: var(--button-text-color);
   padding: 10px;
   margin-bottom: 20px;
   font-size: 16px;

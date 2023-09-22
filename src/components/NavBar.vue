@@ -1,8 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <a class="navbar-brand" href="#">
-      <div class="logo-rectangle"></div>
-      <img src="@/assets/logo_palpalooza_new.png" style="height: 80px" />
+      <img src="@/assets/logo-PalPalooza-png.png" style="height: 200px" />
     </a>
     <button
       class="navbar-toggler"
@@ -114,7 +113,6 @@ export default {
 .navbar {
   background-color: var(--background-color);
   height: 120px;
-  position: absolut;
   padding: 0;
   margin: 0;
 }
@@ -122,13 +120,19 @@ export default {
 .navbar-brand {
   background-color: var(--second-backround-color);
   height: 120px;
-  padding-left: 50px;
+  padding-left: 350px;
   padding-top: 20px;
+  position: relative;
+  margin: 0;
 }
 
-.logo-rectangle {
-  background-color: var(--second-backround-color);
-  width: 250px;
+/* Adjust the logo's positioning */
+.navbar-brand img {
+  position: absolute; /* Position it absolutely */
+  top: 30px; /* Shift it upwards by 40 pixels (or as required) */
+  left: 75px; /* Center the logo horizontally */
+  transform: translateX(-50%, -50%); /* Use translate to perfectly center it */
+  z-index: 1; /* Place it above the rectangle */
 }
 
 .nav-item {
@@ -155,7 +159,7 @@ export default {
   content: "";
   position: absolute;
   height: 20px;
-  left: 0;
+  left: 0x;
   right: 0;
   bottom: -6px;
   height: 6px;
@@ -182,8 +186,8 @@ export default {
 
 .nav-decoration {
   height: 5px;
-  width: 590px;
-  background-color: var(--nav-decoration-color);
+  width: 47%;
+  background-color: #f92c85;
   position: absolute;
   bottom: 30px;
   right: 0px;
@@ -192,10 +196,10 @@ export default {
 .nav-decoration-narrow {
   height: 10px;
   background-color: var(--second-backround-color);
-  position: absolute;
+
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 0px;
 }
 
 .add-activity-btn:hover {
@@ -207,5 +211,6 @@ export default {
 }
 .btn-outline-success {
   border: 2px solid var(--border-color);
+  color: var(--button-text-color);
 }
 </style>

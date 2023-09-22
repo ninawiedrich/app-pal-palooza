@@ -84,7 +84,7 @@ body {
 /* Style for add activity button */
 .add-activity-btn {
   background-color: var(--button-color);
-  color: var(--second-backround-color);
+  color: var(--button-text-color);
   border: 2px solid var(--border-color);
   border-radius: 5px;
   padding: 5px 15px;
@@ -93,7 +93,7 @@ body {
 }
 
 .activity-liste-btn {
-  color: var(--second-backround-color);
+  color: var(--button-text-color);
   border-radius: 5px;
   padding: 5px 15px;
   font-size: 16px;
@@ -119,7 +119,7 @@ body {
 }
 .white-rectangle-activity-list {
   background-color: var(--styling-color);
-  color: var(--button-color);
+  color: brown;
   border-radius: 2px;
   margin: 2px;
 }

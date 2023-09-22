@@ -395,8 +395,8 @@ export default {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  background-color: var(--background-color);
-  color: #fff;
+  background-color: rgba(165, 42, 42, 0.6);
+  color: var(--button-text-color);
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -405,7 +405,7 @@ export default {
 }
 
 .msg-send-btn:hover {
-  background-color: #006aec;
+  background-color: var(--second-backround-color);
 }
 
 .msg-wrapper {
